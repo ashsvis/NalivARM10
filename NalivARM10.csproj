@@ -53,6 +53,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModbusSerialPort.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModbusSerialPort.designer.cs">
+      <DependentUpon>ModbusSerialPort.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProductTreeNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +74,7 @@
     <Compile Include="RiserPanel.Designer.cs">
       <DependentUpon>RiserPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="SerialTuning.cs" />
     <Compile Include="WorkKind.cs" />
     <Compile Include="EthernetTuning.cs" />
     <EmbeddedResource Include="MainForm.resx">

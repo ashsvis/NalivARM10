@@ -5,7 +5,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -73,6 +75,10 @@ namespace NalivARM10
                                     fetcher.DoWork += EthernetFetcher_DoWork;
                                     fetcher.RunWorkerAsync(new EthernetTuning(ethernet));
                                     break;
+                                case "Serial":
+                                    fetcher.DoWork += SerialFetcher_DoWork;
+                                    fetcher.RunWorkerAsync(new SerialTuning(serial));
+                                    break;
                             }
                         }
                     }
@@ -80,6 +86,53 @@ namespace NalivARM10
             }
         }
 
+        /// <summary>
+        /// Обработчик для потока данных по COM-порту
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SerialFetcher_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = (BackgroundWorker)sender;
+            if (!(e.Argument is SerialTuning pars)) return;
+            var lastsecond = DateTime.Now.Second;
+            while (!worker.CancellationPending)
+            {
+                var dt = DateTime.Now;
+                if (lastsecond == dt.Second) continue;
+                lastsecond = dt.Second;
+                // прошла секунда
+                try
+                {
+                    using (var port = new ModbusSerialPort())
+                    {
+                        port.PortName = pars.PortName;
+                        port.BaudRate = pars.BaudRate;
+                        port.Parity = pars.Parity;
+                        port.StopBits = System.IO.Ports.StopBits.Two;
+                        port.Open();
+                        try
+                        {
+
+                        }
+                        finally
+                        {
+                            port.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    worker.ReportProgress(0, ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обработчик для потока данных по TCP соединению
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EthernetFetcher_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
@@ -92,14 +145,31 @@ namespace NalivARM10
                 if (lastsecond == dt.Second) continue;
                 lastsecond = dt.Second;
                 // прошла секунда
-
-
+                try
+                {
+                    using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                    {
+                        socket.SendTimeout = 5000;
+                        socket.ReceiveTimeout = 5000;
+                        socket.Connect(remoteEp);
+                        Thread.Sleep(500);
+                        if (socket.Connected)
+                        {
+                            //var paramsToWriteExists = Modbus.ParamsToWriteExists();
+                            //FetchItems(parameters, socket, paramsToWriteExists);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    worker.ReportProgress(0, ex.Message);
+                }
             }
         }
 
         private void Fetcher_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /// <summary>
