@@ -574,6 +574,7 @@
             // 
             // lvLog
             // 
+            this.lvLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvLog.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lvLog.HideSelection = false;
             this.lvLog.Location = new System.Drawing.Point(0, 308);
@@ -603,7 +604,10 @@
             // 
             // tvRails
             // 
+            this.tvRails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tvRails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvRails.FullRowSelect = true;
+            this.tvRails.HideSelection = false;
             this.tvRails.Location = new System.Drawing.Point(0, 0);
             this.tvRails.Name = "tvRails";
             treeNode1.Name = "Node0";

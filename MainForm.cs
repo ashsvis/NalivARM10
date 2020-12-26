@@ -47,7 +47,7 @@ namespace NalivARM10
                         id = product.Attribute("Id")?.Value;
                         name = product.Attribute("Name")?.Value;
                         if (name == null) continue;
-                        var productNode = new TreeNode(name) { Tag = id };
+                        var productNode = new ProductTreeNode(name) { Tag = id };
                         wayNode.Nodes.Add(productNode);
                         foreach (XElement segment in product.Elements("Segment"))
                         {
@@ -55,15 +55,16 @@ namespace NalivARM10
                             if (linkType == null) continue;
                             var serial = segment.Attribute("Serial")?.Value;
                             var ethernet = segment.Attribute("Ethernet")?.Value;
-                            foreach (XElement riser in segment.Elements("Riser"))
-                            {
-                                var number = segment.Attribute("Number")?.Value;
-                                if (number == null) continue;
-                                var nodeAddr = segment.Attribute("NodeAddr")?.Value;
-                                if (nodeAddr == null) continue;
-                                var riserNode = new TreeNode(number) { Tag = nodeAddr };
-                                productNode.Nodes.Add(riserNode);
-                            }
+                            productNode.Segments.Add(segment);
+                            //foreach (XElement riser in segment.Elements("Riser"))
+                            //{
+                            //    var number = riser.Attribute("Number")?.Value;
+                            //    if (number == null) continue;
+                            //    var nodeAddr = riser.Attribute("NodeAddr")?.Value;
+                            //    if (nodeAddr == null) continue;
+                            //    var riserNode = new TreeNode(number) { Tag = nodeAddr };
+                            //    productNode.Nodes.Add(riserNode);
+                            //}
                         }
                     }
                 }
@@ -78,5 +79,12 @@ namespace NalivARM10
         private void tsmiUsersList_Click(object sender, EventArgs e)
         {
         }
+    }
+
+    public class ProductTreeNode : TreeNode
+    {
+        public List<XElement> Segments = new List<XElement>();
+
+        public ProductTreeNode(string text) : base(text)  {}
     }
 }
