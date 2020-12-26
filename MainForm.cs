@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace NalivARM10
 {
@@ -14,6 +16,58 @@ namespace NalivARM10
         public MainForm()
         {
             InitializeComponent();
+            LoadConfig();
+        }
+
+        private void LoadConfig()
+        {
+            var configName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NalivARM.xml");
+            if (!File.Exists(configName)) return;
+            // чтение конфигурационного файла
+            var xdoc = XDocument.Load(configName);
+            tvRails.Nodes.Clear();
+            var root = new TreeNode("ПТХН");
+            tvRails.Nodes.Add(root);
+            foreach (XElement overpass in xdoc.Element("Configuration").Elements("Overpass"))
+            {
+                var id = overpass.Attribute("Id")?.Value;
+                var name = overpass.Attribute("Name")?.Value;
+                if (name == null) continue;
+                var overpassNode = new TreeNode(name) { Tag = id };
+                root.Nodes.Add(overpassNode);
+                foreach (XElement way in overpass.Elements("Way"))
+                {
+                    id = way.Attribute("Id")?.Value;
+                    name = way.Attribute("Name")?.Value;
+                    if (name == null) continue;
+                    var wayNode = new TreeNode(name) { Tag = id };
+                    overpassNode.Nodes.Add(wayNode);
+                    foreach (XElement product in way.Elements("Product"))
+                    {
+                        id = product.Attribute("Id")?.Value;
+                        name = product.Attribute("Name")?.Value;
+                        if (name == null) continue;
+                        var productNode = new TreeNode(name) { Tag = id };
+                        wayNode.Nodes.Add(productNode);
+                        foreach (XElement segment in product.Elements("Segment"))
+                        {
+                            var linkType = segment.Attribute("Type")?.Value;
+                            if (linkType == null) continue;
+                            var serial = segment.Attribute("Serial")?.Value;
+                            var ethernet = segment.Attribute("Ethernet")?.Value;
+                            foreach (XElement riser in segment.Elements("Riser"))
+                            {
+                                var number = segment.Attribute("Number")?.Value;
+                                if (number == null) continue;
+                                var nodeAddr = segment.Attribute("NodeAddr")?.Value;
+                                if (nodeAddr == null) continue;
+                                var riserNode = new TreeNode(number) { Tag = nodeAddr };
+                                productNode.Nodes.Add(riserNode);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void tsmiExit_Click(object sender, EventArgs e)

@@ -136,49 +136,49 @@
             // 
             this.tsmiLoadConfig.Enabled = false;
             this.tsmiLoadConfig.Name = "tsmiLoadConfig";
-            this.tsmiLoadConfig.Size = new System.Drawing.Size(249, 22);
+            this.tsmiLoadConfig.Size = new System.Drawing.Size(250, 22);
             this.tsmiLoadConfig.Text = "Загрузить конфигурацию";
             // 
             // tsmiSaveConfig
             // 
             this.tsmiSaveConfig.Enabled = false;
             this.tsmiSaveConfig.Name = "tsmiSaveConfig";
-            this.tsmiSaveConfig.Size = new System.Drawing.Size(249, 22);
+            this.tsmiSaveConfig.Size = new System.Drawing.Size(250, 22);
             this.tsmiSaveConfig.Text = "Сохранить конфигурацию";
             // 
             // tsmiSaveConfigAs
             // 
             this.tsmiSaveConfigAs.Enabled = false;
             this.tsmiSaveConfigAs.Name = "tsmiSaveConfigAs";
-            this.tsmiSaveConfigAs.Size = new System.Drawing.Size(249, 22);
+            this.tsmiSaveConfigAs.Size = new System.Drawing.Size(250, 22);
             this.tsmiSaveConfigAs.Text = "Сохранить конфигурацию как...";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(246, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(247, 6);
             // 
             // tsmiPrintFormat
             // 
             this.tsmiPrintFormat.Name = "tsmiPrintFormat";
-            this.tsmiPrintFormat.Size = new System.Drawing.Size(249, 22);
+            this.tsmiPrintFormat.Size = new System.Drawing.Size(250, 22);
             this.tsmiPrintFormat.Text = "Формат печати...";
             // 
             // tsmiPrinter
             // 
             this.tsmiPrinter.Name = "tsmiPrinter";
-            this.tsmiPrinter.Size = new System.Drawing.Size(249, 22);
+            this.tsmiPrinter.Size = new System.Drawing.Size(250, 22);
             this.tsmiPrinter.Text = "Принтер...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(246, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(247, 6);
             // 
             // tsmiExit
             // 
             this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(249, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(250, 22);
             this.tsmiExit.Text = "Выход";
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
@@ -196,25 +196,25 @@
             // tsmiLogin
             // 
             this.tsmiLogin.Name = "tsmiLogin";
-            this.tsmiLogin.Size = new System.Drawing.Size(180, 22);
+            this.tsmiLogin.Size = new System.Drawing.Size(132, 22);
             this.tsmiLogin.Text = "Войти...";
             // 
             // tsmiLogout
             // 
             this.tsmiLogout.Name = "tsmiLogout";
-            this.tsmiLogout.Size = new System.Drawing.Size(180, 22);
+            this.tsmiLogout.Size = new System.Drawing.Size(132, 22);
             this.tsmiLogout.Text = "Выйти...";
             // 
             // tsmiCurrentUser
             // 
             this.tsmiCurrentUser.Name = "tsmiCurrentUser";
-            this.tsmiCurrentUser.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCurrentUser.Size = new System.Drawing.Size(132, 22);
             this.tsmiCurrentUser.Text = "Текущий...";
             // 
             // tsmiUsersList
             // 
             this.tsmiUsersList.Name = "tsmiUsersList";
-            this.tsmiUsersList.Size = new System.Drawing.Size(180, 22);
+            this.tsmiUsersList.Size = new System.Drawing.Size(132, 22);
             this.tsmiUsersList.Text = "Список";
             this.tsmiUsersList.Click += new System.EventHandler(this.tsmiUsersList_Click);
             // 
@@ -575,6 +575,7 @@
             // lvLog
             // 
             this.lvLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lvLog.HideSelection = false;
             this.lvLog.Location = new System.Drawing.Point(0, 308);
             this.lvLog.Name = "lvLog";
             this.lvLog.Size = new System.Drawing.Size(967, 142);
@@ -597,7 +598,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panRisers);
             this.splitContainer1.Size = new System.Drawing.Size(967, 259);
-            this.splitContainer1.SplitterDistance = 151;
+            this.splitContainer1.SplitterDistance = 171;
             this.splitContainer1.TabIndex = 3;
             // 
             // tvRails
@@ -609,7 +610,7 @@
             treeNode1.Text = "ПТХН";
             this.tvRails.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
-            this.tvRails.Size = new System.Drawing.Size(151, 259);
+            this.tvRails.Size = new System.Drawing.Size(171, 259);
             this.tvRails.TabIndex = 0;
             // 
             // panRisers
@@ -618,7 +619,7 @@
             this.panRisers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panRisers.Location = new System.Drawing.Point(0, 0);
             this.panRisers.Name = "panRisers";
-            this.panRisers.Size = new System.Drawing.Size(812, 259);
+            this.panRisers.Size = new System.Drawing.Size(792, 259);
             this.panRisers.TabIndex = 0;
             // 
             // MainForm
