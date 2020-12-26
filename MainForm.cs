@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -75,22 +74,31 @@ namespace NalivARM10
         private void tvRails_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (!(e.Node is ProductTreeNode productNode)) return;
-            var list = new List<RiserPanel>();
+            tscbRisersList.Items.Clear();
+            panRisers.SuspendLayout();
+            panRisers.Controls.Clear();
             foreach (var segment in productNode.Segments)
             {
                 foreach (XElement riser in segment.Elements("Riser"))
                 {
                     var number = riser.Attribute("Number")?.Value;
-                    if (number == null) continue;
+                    if (number == null || !int.TryParse(number, out int riserNumber)) continue;
                     var nodeAddr = riser.Attribute("NodeAddr")?.Value;
                     if (nodeAddr == null) continue;
-                    list.Add(new RiserPanel());
+                    var pan = new RiserPanel() { Riser = riserNumber };
+                    pan.IsFocused += Pan_IsFocused;
+                    panRisers.Controls.Add(pan);
+                    tscbRisersList.Items.Add(pan);
                 }
             }
-            panRisers.SuspendLayout();
-            panRisers.Controls.Clear();
-            panRisers.Controls.AddRange(list.ToArray());
             panRisers.ResumeLayout();
+        }
+
+        private void Pan_IsFocused(RiserPanel panel)
+        {
+            tscbRisersList.SelectedIndexChanged -= tscbRisersList_SelectedIndexChanged;
+            tscbRisersList.SelectedItem = panel;
+            tscbRisersList.SelectedIndexChanged += tscbRisersList_SelectedIndexChanged;
         }
 
         private void tsmiExit_Click(object sender, EventArgs e)
@@ -101,12 +109,12 @@ namespace NalivARM10
         private void tsmiUsersList_Click(object sender, EventArgs e)
         {
         }
-    }
 
-    public class ProductTreeNode : TreeNode
-    {
-        public List<XElement> Segments = new List<XElement>();
+        private void tscbRisersList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var pan = (RiserPanel)tscbRisersList.SelectedItem;
+            pan?.Focus();
+        }
 
-        public ProductTreeNode(string text) : base(text)  {}
     }
 }

@@ -41,6 +41,7 @@ namespace NalivARM10
             this.riserControl1.Name = "riserControl1";
             this.riserControl1.NType = "0";
             this.riserControl1.Riser = 0;
+            this.riserControl1.Selected = false;
             this.riserControl1.SetPoint = 0;
             this.riserControl1.Size = new System.Drawing.Size(148, 101);
             this.riserControl1.TabIndex = 0;
@@ -55,6 +56,8 @@ namespace NalivARM10
             this.Name = "RiserPanel";
             this.Size = new System.Drawing.Size(148, 101);
             this.Load += new System.EventHandler(this.RiserPanel_Load);
+            this.Enter += new System.EventHandler(this.RiserPanel_Enter);
+            this.Leave += new System.EventHandler(this.RiserPanel_Leave);
             this.ResumeLayout(false);
 
         }

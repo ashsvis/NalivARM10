@@ -33,6 +33,7 @@
             // RiserControl
             // 
             this.Margin = new System.Windows.Forms.Padding(0);
+            this.Click += new System.EventHandler(this.RiserControl_Click);
             this.ResumeLayout(false);
 
         }

@@ -44,6 +44,8 @@ namespace NalivARM10
         public int SetPoint { get => setpoint; set => setpoint = value; }
 
         public int Riser { get => riser; set => riser = value; }
+       
+        public bool Selected { get; set; }
 
         public void UpdateData(ushort[] hregs, bool remoted)
         {
@@ -77,7 +79,10 @@ namespace NalivARM10
             DrawBorder(graphics, rect, Color.White, Color.FromArgb(160, 160, 160), 1);
             rect.Inflate(-1, -1);
             DrawBorder(graphics, rect, Color.FromArgb(160, 160, 160), Color.White, 1);
-            rect.Inflate(-2, -2);
+            rect.Inflate(-1, -1);
+            if (Selected)
+                graphics.DrawRectangle(Pens.Red, rect);
+            rect.Inflate(-1, -1);
             DrawBorder(graphics, rect, Color.White, Color.FromArgb(160, 160, 160), 1);
             if (linked)
             {
@@ -206,6 +211,11 @@ namespace NalivARM10
             }
             var blick = new Rectangle(rect.X + 2, rect.Y + 2, 4, 4);
             graphics.FillEllipse(Brushes.White, blick);
+        }
+
+        private void RiserControl_Click(object sender, System.EventArgs e)
+        {
+            Parent.Focus();
         }
     }
 }
