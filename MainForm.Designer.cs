@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("ПТХН");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("ПТХН");
             this.menuMainStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiLoadConfig = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,26 +75,26 @@
             this.tsmiShowNodes = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbServerRun = new System.Windows.Forms.ToolStripButton();
-            this.tsbServerStop = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbLogin = new System.Windows.Forms.ToolStripButton();
-            this.tsbLogout = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tscbRisersList = new System.Windows.Forms.ToolStripComboBox();
-            this.tsbTask = new System.Windows.Forms.ToolStripButton();
-            this.tsbClear = new System.Windows.Forms.ToolStripButton();
-            this.tsbClearAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbAllTasks = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbRunAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbStopAll = new System.Windows.Forms.ToolStripButton();
             this.lvLog = new System.Windows.Forms.ListView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tvRails = new System.Windows.Forms.TreeView();
-            this.panRisers = new System.Windows.Forms.Panel();
+            this.panRisers = new System.Windows.Forms.FlowLayoutPanel();
+            this.tsbServerRun = new System.Windows.Forms.ToolStripButton();
+            this.tsbServerStop = new System.Windows.Forms.ToolStripButton();
+            this.tsbLogin = new System.Windows.Forms.ToolStripButton();
+            this.tsbLogout = new System.Windows.Forms.ToolStripButton();
+            this.tsbTask = new System.Windows.Forms.ToolStripButton();
+            this.tsbClear = new System.Windows.Forms.ToolStripButton();
+            this.tsbClearAll = new System.Windows.Forms.ToolStripButton();
+            this.tsbAllTasks = new System.Windows.Forms.ToolStripButton();
+            this.tsbRunAll = new System.Windows.Forms.ToolStripButton();
+            this.tsbStopAll = new System.Windows.Forms.ToolStripButton();
             this.menuMainStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -443,47 +443,10 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsbServerRun
-            // 
-            this.tsbServerRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbServerRun.Enabled = false;
-            this.tsbServerRun.Image = ((System.Drawing.Image)(resources.GetObject("tsbServerRun.Image")));
-            this.tsbServerRun.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbServerRun.Name = "tsbServerRun";
-            this.tsbServerRun.Size = new System.Drawing.Size(23, 22);
-            this.tsbServerRun.Text = "Запустить сервер";
-            // 
-            // tsbServerStop
-            // 
-            this.tsbServerStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbServerStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbServerStop.Image")));
-            this.tsbServerStop.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbServerStop.Name = "tsbServerStop";
-            this.tsbServerStop.Size = new System.Drawing.Size(23, 22);
-            this.tsbServerStop.Text = "Остановить сервер";
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsbLogin
-            // 
-            this.tsbLogin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbLogin.Image = ((System.Drawing.Image)(resources.GetObject("tsbLogin.Image")));
-            this.tsbLogin.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbLogin.Name = "tsbLogin";
-            this.tsbLogin.Size = new System.Drawing.Size(23, 22);
-            this.tsbLogin.Text = "Вход пользователя";
-            // 
-            // tsbLogout
-            // 
-            this.tsbLogout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbLogout.Image = ((System.Drawing.Image)(resources.GetObject("tsbLogout.Image")));
-            this.tsbLogout.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbLogout.Name = "tsbLogout";
-            this.tsbLogout.Size = new System.Drawing.Size(23, 22);
-            this.tsbLogout.Text = "Выход пользователя";
             // 
             // toolStripSeparator3
             // 
@@ -497,80 +460,20 @@
             this.tscbRisersList.Size = new System.Drawing.Size(121, 25);
             this.tscbRisersList.ToolTipText = "Список стояков группы";
             // 
-            // tsbTask
-            // 
-            this.tsbTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbTask.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.tsbTask.Image = ((System.Drawing.Image)(resources.GetObject("tsbTask.Image")));
-            this.tsbTask.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbTask.Name = "tsbTask";
-            this.tsbTask.Size = new System.Drawing.Size(59, 22);
-            this.tsbTask.Text = "Задание";
-            // 
-            // tsbClear
-            // 
-            this.tsbClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbClear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.tsbClear.Image = ((System.Drawing.Image)(resources.GetObject("tsbClear.Image")));
-            this.tsbClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbClear.Name = "tsbClear";
-            this.tsbClear.Size = new System.Drawing.Size(66, 22);
-            this.tsbClear.Text = "Очистить";
-            // 
-            // tsbClearAll
-            // 
-            this.tsbClearAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbClearAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.tsbClearAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbClearAll.Image")));
-            this.tsbClearAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbClearAll.Name = "tsbClearAll";
-            this.tsbClearAll.Size = new System.Drawing.Size(89, 22);
-            this.tsbClearAll.Text = "Очистить все";
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsbAllTasks
-            // 
-            this.tsbAllTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbAllTasks.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.tsbAllTasks.Image = ((System.Drawing.Image)(resources.GetObject("tsbAllTasks.Image")));
-            this.tsbAllTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbAllTasks.Name = "tsbAllTasks";
-            this.tsbAllTasks.Size = new System.Drawing.Size(82, 22);
-            this.tsbAllTasks.Text = "Все задания";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
-            // tsbRunAll
-            // 
-            this.tsbRunAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbRunAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.tsbRunAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbRunAll.Image")));
-            this.tsbRunAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbRunAll.Name = "tsbRunAll";
-            this.tsbRunAll.Size = new System.Drawing.Size(91, 22);
-            this.tsbRunAll.Text = "Запустить все";
-            // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsbStopAll
-            // 
-            this.tsbStopAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbStopAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.tsbStopAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbStopAll.Image")));
-            this.tsbStopAll.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbStopAll.Name = "tsbStopAll";
-            this.tsbStopAll.Size = new System.Drawing.Size(101, 22);
-            this.tsbStopAll.Text = "Остановить все";
             // 
             // lvLog
             // 
@@ -610,21 +513,122 @@
             this.tvRails.HideSelection = false;
             this.tvRails.Location = new System.Drawing.Point(0, 0);
             this.tvRails.Name = "tvRails";
-            treeNode1.Name = "Node0";
-            treeNode1.Text = "ПТХН";
+            treeNode4.Name = "Node0";
+            treeNode4.Text = "ПТХН";
             this.tvRails.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode4});
             this.tvRails.Size = new System.Drawing.Size(171, 259);
             this.tvRails.TabIndex = 0;
+            this.tvRails.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvRails_AfterSelect);
             // 
             // panRisers
             // 
             this.panRisers.AutoScroll = true;
+            this.panRisers.BackColor = System.Drawing.SystemColors.Control;
+            this.panRisers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panRisers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panRisers.Location = new System.Drawing.Point(0, 0);
+            this.panRisers.Margin = new System.Windows.Forms.Padding(0);
             this.panRisers.Name = "panRisers";
             this.panRisers.Size = new System.Drawing.Size(792, 259);
             this.panRisers.TabIndex = 0;
+            // 
+            // tsbServerRun
+            // 
+            this.tsbServerRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbServerRun.Enabled = false;
+            this.tsbServerRun.Image = ((System.Drawing.Image)(resources.GetObject("tsbServerRun.Image")));
+            this.tsbServerRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbServerRun.Name = "tsbServerRun";
+            this.tsbServerRun.Size = new System.Drawing.Size(23, 22);
+            this.tsbServerRun.Text = "Запустить сервер";
+            // 
+            // tsbServerStop
+            // 
+            this.tsbServerStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbServerStop.Image = ((System.Drawing.Image)(resources.GetObject("tsbServerStop.Image")));
+            this.tsbServerStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbServerStop.Name = "tsbServerStop";
+            this.tsbServerStop.Size = new System.Drawing.Size(23, 22);
+            this.tsbServerStop.Text = "Остановить сервер";
+            // 
+            // tsbLogin
+            // 
+            this.tsbLogin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLogin.Image = ((System.Drawing.Image)(resources.GetObject("tsbLogin.Image")));
+            this.tsbLogin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLogin.Name = "tsbLogin";
+            this.tsbLogin.Size = new System.Drawing.Size(23, 22);
+            this.tsbLogin.Text = "Вход пользователя";
+            // 
+            // tsbLogout
+            // 
+            this.tsbLogout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLogout.Image = ((System.Drawing.Image)(resources.GetObject("tsbLogout.Image")));
+            this.tsbLogout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLogout.Name = "tsbLogout";
+            this.tsbLogout.Size = new System.Drawing.Size(23, 22);
+            this.tsbLogout.Text = "Выход пользователя";
+            // 
+            // tsbTask
+            // 
+            this.tsbTask.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbTask.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.tsbTask.Image = ((System.Drawing.Image)(resources.GetObject("tsbTask.Image")));
+            this.tsbTask.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbTask.Name = "tsbTask";
+            this.tsbTask.Size = new System.Drawing.Size(59, 22);
+            this.tsbTask.Text = "Задание";
+            // 
+            // tsbClear
+            // 
+            this.tsbClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbClear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.tsbClear.Image = ((System.Drawing.Image)(resources.GetObject("tsbClear.Image")));
+            this.tsbClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbClear.Name = "tsbClear";
+            this.tsbClear.Size = new System.Drawing.Size(66, 22);
+            this.tsbClear.Text = "Очистить";
+            // 
+            // tsbClearAll
+            // 
+            this.tsbClearAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbClearAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.tsbClearAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbClearAll.Image")));
+            this.tsbClearAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbClearAll.Name = "tsbClearAll";
+            this.tsbClearAll.Size = new System.Drawing.Size(89, 22);
+            this.tsbClearAll.Text = "Очистить все";
+            // 
+            // tsbAllTasks
+            // 
+            this.tsbAllTasks.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbAllTasks.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.tsbAllTasks.Image = ((System.Drawing.Image)(resources.GetObject("tsbAllTasks.Image")));
+            this.tsbAllTasks.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbAllTasks.Name = "tsbAllTasks";
+            this.tsbAllTasks.Size = new System.Drawing.Size(82, 22);
+            this.tsbAllTasks.Text = "Все задания";
+            // 
+            // tsbRunAll
+            // 
+            this.tsbRunAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbRunAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.tsbRunAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbRunAll.Image")));
+            this.tsbRunAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbRunAll.Name = "tsbRunAll";
+            this.tsbRunAll.Size = new System.Drawing.Size(91, 22);
+            this.tsbRunAll.Text = "Запустить все";
+            // 
+            // tsbStopAll
+            // 
+            this.tsbStopAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbStopAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.tsbStopAll.Image = ((System.Drawing.Image)(resources.GetObject("tsbStopAll.Image")));
+            this.tsbStopAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStopAll.Name = "tsbStopAll";
+            this.tsbStopAll.Size = new System.Drawing.Size(101, 22);
+            this.tsbStopAll.Text = "Остановить все";
             // 
             // MainForm
             // 
@@ -640,6 +644,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Naliv ARM v10.00";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuMainStrip.ResumeLayout(false);
             this.menuMainStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -684,7 +689,6 @@
         private System.Windows.Forms.ListView lvLog;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView tvRails;
-        private System.Windows.Forms.Panel panRisers;
         private System.Windows.Forms.ToolStripComboBox tscbRisersList;
         private System.Windows.Forms.ToolStripButton tsbTask;
         private System.Windows.Forms.ToolStripButton tsbClear;
@@ -720,6 +724,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiProductLevel;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem tsmiStatus;
+        private System.Windows.Forms.FlowLayoutPanel panRisers;
     }
 }
 

@@ -16,7 +16,12 @@ namespace NalivARM10
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
             LoadConfig();
+
         }
 
         private void LoadConfig()
@@ -56,19 +61,36 @@ namespace NalivARM10
                             var serial = segment.Attribute("Serial")?.Value;
                             var ethernet = segment.Attribute("Ethernet")?.Value;
                             productNode.Segments.Add(segment);
-                            //foreach (XElement riser in segment.Elements("Riser"))
-                            //{
-                            //    var number = riser.Attribute("Number")?.Value;
-                            //    if (number == null) continue;
-                            //    var nodeAddr = riser.Attribute("NodeAddr")?.Value;
-                            //    if (nodeAddr == null) continue;
-                            //    var riserNode = new TreeNode(number) { Tag = nodeAddr };
-                            //    productNode.Nodes.Add(riserNode);
-                            //}
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Выбор узла в дереве
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tvRails_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (!(e.Node is ProductTreeNode productNode)) return;
+            var list = new List<RiserPanel>();
+            foreach (var segment in productNode.Segments)
+            {
+                foreach (XElement riser in segment.Elements("Riser"))
+                {
+                    var number = riser.Attribute("Number")?.Value;
+                    if (number == null) continue;
+                    var nodeAddr = riser.Attribute("NodeAddr")?.Value;
+                    if (nodeAddr == null) continue;
+                    list.Add(new RiserPanel());
+                }
+            }
+            panRisers.SuspendLayout();
+            panRisers.Controls.Clear();
+            panRisers.Controls.AddRange(list.ToArray());
+            panRisers.ResumeLayout();
         }
 
         private void tsmiExit_Click(object sender, EventArgs e)
