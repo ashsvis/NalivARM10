@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -23,6 +24,9 @@ namespace NalivARM10
 
         }
 
+        /// <summary>
+        /// Загрузка конфигурационных данных
+        /// </summary>
         private void LoadConfig()
         {
             var configName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NalivARM.xml");
@@ -60,10 +64,42 @@ namespace NalivARM10
                             var serial = segment.Attribute("Serial")?.Value;
                             var ethernet = segment.Attribute("Ethernet")?.Value;
                             productNode.Segments.Add(segment);
+                            //
+                            var fetcher = new BackgroundWorker { WorkerSupportsCancellation = true, WorkerReportsProgress = true };
+                            fetcher.ProgressChanged += Fetcher_ProgressChanged;
+                            switch (linkType)
+                            {
+                                case "Ethernet":
+                                    fetcher.DoWork += EthernetFetcher_DoWork;
+                                    fetcher.RunWorkerAsync(new EthernetTuning(ethernet));
+                                    break;
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private void EthernetFetcher_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = (BackgroundWorker)sender;
+            if (!(e.Argument is EthernetTuning pars)) return;
+            var lastsecond = DateTime.Now.Second;
+            var remoteEp = new IPEndPoint(pars.Address, pars.Port);
+            while (!worker.CancellationPending)
+            {
+                var dt = DateTime.Now;
+                if (lastsecond == dt.Second) continue;
+                lastsecond = dt.Second;
+                // прошла секунда
+
+
+            }
+        }
+
+        private void Fetcher_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -94,6 +130,11 @@ namespace NalivARM10
             panRisers.ResumeLayout();
         }
 
+        /// <summary>
+        /// Панель со стояком была выбрана указателем,
+        /// поэтому выбираем номер стояка из выпадающего списка обратным ходом
+        /// </summary>
+        /// <param name="panel"></param>
         private void Pan_IsFocused(RiserPanel panel)
         {
             tscbRisersList.SelectedIndexChanged -= tscbRisersList_SelectedIndexChanged;
@@ -106,15 +147,16 @@ namespace NalivARM10
             Close();
         }
 
-        private void tsmiUsersList_Click(object sender, EventArgs e)
-        {
-        }
-
         private void tscbRisersList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var pan = (RiserPanel)tscbRisersList.SelectedItem;
             pan?.Focus();
         }
 
+        private void tscbRisersList_DropDownClosed(object sender, EventArgs e)
+        {
+            var pan = (RiserPanel)tscbRisersList.SelectedItem;
+            pan?.Focus();
+        }
     }
 }

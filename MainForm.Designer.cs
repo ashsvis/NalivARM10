@@ -216,7 +216,6 @@
             this.tsmiUsersList.Name = "tsmiUsersList";
             this.tsmiUsersList.Size = new System.Drawing.Size(132, 22);
             this.tsmiUsersList.Text = "Список";
-            this.tsmiUsersList.Click += new System.EventHandler(this.tsmiUsersList_Click);
             // 
             // tsmiWaggons
             // 
@@ -496,6 +495,7 @@
             this.tscbRisersList.Name = "tscbRisersList";
             this.tscbRisersList.Size = new System.Drawing.Size(121, 25);
             this.tscbRisersList.ToolTipText = "Список стояков группы";
+            this.tscbRisersList.DropDownClosed += new System.EventHandler(this.tscbRisersList_DropDownClosed);
             this.tscbRisersList.SelectedIndexChanged += new System.EventHandler(this.tscbRisersList_SelectedIndexChanged);
             // 
             // tsbTask
