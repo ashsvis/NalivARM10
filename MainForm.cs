@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -166,6 +167,14 @@ namespace NalivARM10
                             if (lastsecond == dt.Second) continue;
                             lastsecond = dt.Second;
                             // прошла секунда
+                            try
+                            {
+
+                            }
+                            catch (Exception ex)
+                            {
+                                worker.ReportProgress(0, ex.Message);
+                            }
                         }
                     }
                     else
@@ -192,12 +201,10 @@ namespace NalivARM10
         private void tvRails_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (!(e.Node is ProductTreeNode productNode)) return;
-            tscbRisersList.Items.Clear();
-            panRisers.SuspendLayout();
-            panRisers.Controls.Clear();
+            var list = new List<RiserPanel>();
             foreach (var segment in productNode.Segments)
             {
-                foreach (XElement riser in segment.Elements("Riser"))
+                foreach (XElement riser in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
                 {
                     var number = riser.Attribute("Number")?.Value;
                     if (number == null || !int.TryParse(number, out int riserNumber)) continue;
@@ -205,9 +212,16 @@ namespace NalivARM10
                     if (nodeAddr == null) continue;
                     var pan = new RiserPanel() { Riser = riserNumber };
                     pan.IsFocused += Pan_IsFocused;
-                    panRisers.Controls.Add(pan);
-                    tscbRisersList.Items.Add(pan);
+                    list.Add(pan);
                 }
+            }
+            tscbRisersList.Items.Clear();
+            panRisers.SuspendLayout();
+            panRisers.Controls.Clear();
+            foreach (var pan in list.OrderBy(item => item.Riser))
+            {
+                panRisers.Controls.Add(pan);
+                tscbRisersList.Items.Add(pan);
             }
             panRisers.ResumeLayout();
         }
