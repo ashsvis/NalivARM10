@@ -59,6 +59,7 @@
     <Compile Include="Model\ModbusSerialPort.designer.cs">
       <DependentUpon>ModbusSerialPort.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Riser.cs" />
     <Compile Include="View\ProductTreeNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
