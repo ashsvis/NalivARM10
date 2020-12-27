@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NalivARM10.Model
+﻿namespace NalivARM10.Model
 {
     public class Riser
     {
@@ -12,5 +7,7 @@ namespace NalivARM10.Model
         public string ProductId { get; set; }
         public uint Number { get; set; }
         public byte NodeAddr { get; set; }
+
+        public int Level { get; set; }
     }
 }

@@ -39,6 +39,9 @@ namespace NalivARM10
             var root = new TreeNode("ПТХН");
             tvRails.Nodes.Add(root);
             var fetchers = new Dictionary<BackgroundWorker, Tuning>();
+
+            var npp = 1;
+
             foreach (XElement overpass in xdoc.Element("Configuration").Elements("Overpass"))
             {
                 var overpassId = overpass.Attribute("Id")?.Value;
@@ -88,6 +91,9 @@ namespace NalivARM10
                                 var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
                                 if (nodeAddr == null || !byte.TryParse(nodeAddr, out byte addr)) continue;
                                 var riser = new Riser() { OverpassId = overpassId, WayId = wayId, ProductId = productId, Number = riserNumber, NodeAddr = addr };
+
+                                riser.Level = npp++;
+
                                 Data.Risers.TryAdd(new RiserKey(overpassId, wayId, productId, riserNumber), riser);
                             }
 
