@@ -95,30 +95,40 @@ namespace NalivARM10
         {
             var worker = (BackgroundWorker)sender;
             if (!(e.Argument is SerialTuning pars)) return;
-            var lastsecond = DateTime.Now.Second;
-            while (!worker.CancellationPending)
+            using (var port = new ModbusSerialPort())
             {
-                var dt = DateTime.Now;
-                if (lastsecond == dt.Second) continue;
-                lastsecond = dt.Second;
-                // прошла секунда
+                port.PortName = pars.PortName;
+                port.BaudRate = pars.BaudRate;
+                port.Parity = pars.Parity;
+                port.StopBits = System.IO.Ports.StopBits.Two;
                 try
                 {
-                    using (var port = new ModbusSerialPort())
+                    port.Open();
+                    worker.ReportProgress(0, $"{port.PortName} открыт");
+                    try
                     {
-                        port.PortName = pars.PortName;
-                        port.BaudRate = pars.BaudRate;
-                        port.Parity = pars.Parity;
-                        port.StopBits = System.IO.Ports.StopBits.Two;
-                        port.Open();
-                        try
+                        var lastsecond = DateTime.Now.Second;
+                        while (!worker.CancellationPending)
                         {
+                            Thread.Sleep(1);
+                            var dt = DateTime.Now;
+                            if (lastsecond == dt.Second) continue;
+                            lastsecond = dt.Second;
+                            // прошла секунда
+                            try
+                            {
 
+                            }
+                            catch (Exception ex)
+                            {
+                                worker.ReportProgress(0, ex.Message);
+                            }
                         }
-                        finally
-                        {
-                            port.Close();
-                        }
+
+                    }
+                    finally
+                    {
+                        port.Close();
                     }
                 }
                 catch (Exception ex)
@@ -137,28 +147,29 @@ namespace NalivARM10
         {
             var worker = (BackgroundWorker)sender;
             if (!(e.Argument is EthernetTuning pars)) return;
-            var lastsecond = DateTime.Now.Second;
-            var remoteEp = new IPEndPoint(pars.Address, pars.Port);
-            while (!worker.CancellationPending)
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
             {
-                var dt = DateTime.Now;
-                if (lastsecond == dt.Second) continue;
-                lastsecond = dt.Second;
-                // прошла секунда
+                socket.SendTimeout = 5000;
+                socket.ReceiveTimeout = 5000;
                 try
                 {
-                    using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                    var remoteEp = new IPEndPoint(pars.Address, pars.Port);
+                    socket.Connect(remoteEp);
+                    Thread.Sleep(500);
+                    if (socket.Connected)
                     {
-                        socket.SendTimeout = 5000;
-                        socket.ReceiveTimeout = 5000;
-                        socket.Connect(remoteEp);
-                        Thread.Sleep(500);
-                        if (socket.Connected)
+                        worker.ReportProgress(0, $"Сокет {remoteEp} подключен");
+                        var lastsecond = DateTime.Now.Second;
+                        while (!worker.CancellationPending)
                         {
-                            //var paramsToWriteExists = Modbus.ParamsToWriteExists();
-                            //FetchItems(parameters, socket, paramsToWriteExists);
+                            var dt = DateTime.Now;
+                            if (lastsecond == dt.Second) continue;
+                            lastsecond = dt.Second;
+                            // прошла секунда
                         }
                     }
+                    else
+                        worker.ReportProgress(0, $"Сокет {remoteEp} не подключен");
                 }
                 catch (Exception ex)
                 {
@@ -169,7 +180,8 @@ namespace NalivARM10
 
         private void Fetcher_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //throw new NotImplementedException();
+            if (e.ProgressPercentage == 0)
+                Console.WriteLine($"{e.UserState}");
         }
 
         /// <summary>
