@@ -1,20 +1,19 @@
-﻿using System;
+﻿using NalivARM10.Model;
+using System;
 using System.Windows.Forms;
 
 namespace NalivARM10
 {
     public partial class RiserPanel : UserControl
     {
-        public RiserPanel()
+        public RiserPanel(RiserKey key)
         {
             InitializeComponent();
+            riserControl1.Key = key;
+            riserControl1.Riser = key.Number;
         }
 
-        public int Riser 
-        { 
-            get => riserControl1.Riser; 
-            set => riserControl1.Riser = value; 
-        }
+        public uint Number { get => riserControl1.Riser; }
 
         public event FocusRiser IsFocused;
 

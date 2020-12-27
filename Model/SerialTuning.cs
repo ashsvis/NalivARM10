@@ -3,9 +3,9 @@ using System.IO.Ports;
 
 namespace NalivARM10
 {
-    public class SerialTuning
+    public class SerialTuning : Tuning
     {
-        public SerialTuning(string comString)
+        public SerialTuning(string comString) : base(comString)
         {
             var vals = comString.Split(','); //"COM1,9600,N"
             if (vals.Length != 3) return;

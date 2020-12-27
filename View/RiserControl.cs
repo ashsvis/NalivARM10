@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using NalivARM10.Model;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,7 +19,7 @@ namespace NalivARM10
         private bool? ready;
         private int setpoint;
         private string ntype = "0";
-        private int riser;
+        private uint riser;
 
         public RiserControl()
         {
@@ -43,7 +44,10 @@ namespace NalivARM10
 
         public int SetPoint { get => setpoint; set => setpoint = value; }
 
-        public int Riser { get => riser; set => riser = value; }
+
+        public RiserKey Key { get; set; }
+
+        public uint Riser { get => riser; set => riser = value; }
        
         public bool Selected { get; set; }
 

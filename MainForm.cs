@@ -1,13 +1,12 @@
-﻿using System;
+﻿using NalivARM10.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -39,26 +38,27 @@ namespace NalivARM10
             tvRails.Nodes.Clear();
             var root = new TreeNode("ПТХН");
             tvRails.Nodes.Add(root);
+            var fetchers = new Dictionary<BackgroundWorker, Tuning>();
             foreach (XElement overpass in xdoc.Element("Configuration").Elements("Overpass"))
             {
-                var id = overpass.Attribute("Id")?.Value;
+                var overpassId = overpass.Attribute("Id")?.Value;
                 var name = overpass.Attribute("Name")?.Value;
                 if (name == null) continue;
-                var overpassNode = new TreeNode(name) { Tag = id };
+                var overpassNode = new OverpassTreeNode(name) { OverpassId = overpassId };
                 root.Nodes.Add(overpassNode);
                 foreach (XElement way in overpass.Elements("Way"))
                 {
-                    id = way.Attribute("Id")?.Value;
+                    var wayId = way.Attribute("Id")?.Value;
                     name = way.Attribute("Name")?.Value;
                     if (name == null) continue;
-                    var wayNode = new TreeNode(name) { Tag = id };
+                    var wayNode = new WayTreeNode(name) { WayId = wayId };
                     overpassNode.Nodes.Add(wayNode);
                     foreach (XElement product in way.Elements("Product"))
                     {
-                        id = product.Attribute("Id")?.Value;
+                        var productId = product.Attribute("Id")?.Value;
                         name = product.Attribute("Name")?.Value;
                         if (name == null) continue;
-                        var productNode = new ProductTreeNode(name) { Tag = id };
+                        var productNode = new ProductTreeNode(name) { ProductId = productId };
                         wayNode.Nodes.Add(productNode);
                         foreach (XElement segment in product.Elements("Segment"))
                         {
@@ -74,16 +74,31 @@ namespace NalivARM10
                             {
                                 case "Ethernet":
                                     fetcher.DoWork += EthernetFetcher_DoWork;
-                                    fetcher.RunWorkerAsync(new EthernetTuning(ethernet));
+                                    fetchers.Add(fetcher, new EthernetTuning(ethernet));
                                     break;
                                 case "Serial":
                                     fetcher.DoWork += SerialFetcher_DoWork;
-                                    fetcher.RunWorkerAsync(new SerialTuning(serial));
+                                    fetchers.Add(fetcher, new SerialTuning(serial));
                                     break;
                             }
+                            foreach (XElement riserElement in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
+                            {
+                                var number = riserElement.Attribute("Number")?.Value;
+                                if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
+                                var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
+                                if (nodeAddr == null || !byte.TryParse(nodeAddr, out byte addr)) continue;
+                                var riser = new Riser() { OverpassId = overpassId, WayId = wayId, ProductId = productId, Number = riserNumber, NodeAddr = addr };
+                                Data.Risers.TryAdd(new RiserKey(overpassId, wayId, productId, riserNumber), riser);
+                            }
+
                         }
                     }
                 }
+            }
+            // запуск потоков опроса
+            foreach (var item in fetchers)
+            {
+                item.Key.RunWorkerAsync(item.Value);
             }
         }
 
@@ -204,13 +219,16 @@ namespace NalivARM10
             var list = new List<RiserPanel>();
             foreach (var segment in productNode.Segments)
             {
+                var productId = productNode.ProductId;
+                var wayId = ((WayTreeNode)productNode.Parent).WayId;
+                var overpassId = ((OverpassTreeNode)productNode.Parent.Parent).OverpassId;
                 foreach (XElement riser in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
                 {
                     var number = riser.Attribute("Number")?.Value;
-                    if (number == null || !int.TryParse(number, out int riserNumber)) continue;
+                    if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
                     var nodeAddr = riser.Attribute("NodeAddr")?.Value;
                     if (nodeAddr == null) continue;
-                    var pan = new RiserPanel() { Riser = riserNumber };
+                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber));
                     pan.IsFocused += Pan_IsFocused;
                     list.Add(pan);
                 }
@@ -218,7 +236,7 @@ namespace NalivARM10
             tscbRisersList.Items.Clear();
             panRisers.SuspendLayout();
             panRisers.Controls.Clear();
-            foreach (var pan in list.OrderBy(item => item.Riser))
+            foreach (var pan in list.OrderBy(item => item.Number))
             {
                 panRisers.Controls.Add(pan);
                 tscbRisersList.Items.Add(pan);
