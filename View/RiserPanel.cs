@@ -6,14 +6,14 @@ namespace NalivARM10
 {
     public partial class RiserPanel : UserControl
     {
-        private readonly RiserKey key;
+        public RiserKey RiserKey { get; private set; }
 
         public RiserPanel(RiserKey key)
         {
             InitializeComponent();
             riserControl1.Key = key;
             riserControl1.Riser = key.Number;
-            this.key = key;
+            this.RiserKey = key;
         }
 
         public uint Number { get => riserControl1.Riser; }
@@ -22,12 +22,11 @@ namespace NalivARM10
 
         private void RiserPanel_Load(object sender, EventArgs e)
         {
-            if (Data.Risers.TryGetValue(key, out Riser riser))
-            {
-                var buff = new ushort[60];
-                buff[0] = (ushort)riser.Level;
-                riserControl1.UpdateData(buff, false);
-            }
+        }
+
+        public void UpdateData(ushort[] hregs)
+        {
+            riserControl1.UpdateData(hregs);
         }
 
         private void RiserPanel_Enter(object sender, EventArgs e)

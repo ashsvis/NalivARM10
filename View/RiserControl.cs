@@ -51,9 +51,9 @@ namespace NalivARM10
        
         public bool Selected { get; set; }
 
-        public void UpdateData(ushort[] hregs, bool remoted)
+        public void UpdateData(ushort[] hregs)
         {
-            if (hregs == null || hregs.Length != 60)
+            if (hregs == null || hregs.Length != 61)
             {
                 linked = false;
                 Invalidate();

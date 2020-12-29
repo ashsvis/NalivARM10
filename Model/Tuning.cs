@@ -1,9 +1,12 @@
-﻿namespace NalivARM10
+﻿using NalivARM10.Model;
+using System.Collections.Generic;
+
+namespace NalivARM10
 {
     public class Tuning
     {
-        public Tuning(string tuning)
-        {
-        }
+        public List<RiserKey> RiserKeys = new List<RiserKey>();
+
+        public Tuning(string tuning) { }
     }
 }

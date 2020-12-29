@@ -1,9 +1,11 @@
 ﻿using NalivARM10.Model;
+using NalivARM10.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -40,7 +42,7 @@ namespace NalivARM10
             tvRails.Nodes.Add(root);
             var fetchers = new Dictionary<BackgroundWorker, Tuning>();
 
-            var npp = 1;
+            //var npp = 1;
 
             foreach (XElement overpass in xdoc.Element("Configuration").Elements("Overpass"))
             {
@@ -70,6 +72,19 @@ namespace NalivARM10
                             var serial = segment.Attribute("Serial")?.Value;
                             var ethernet = segment.Attribute("Ethernet")?.Value;
                             productNode.Segments.Add(segment);
+                            var riserKeys = new List<RiserKey>();
+                            foreach (XElement riserElement in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
+                            {
+                                var number = riserElement.Attribute("Number")?.Value;
+                                if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
+                                var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
+                                if (nodeAddr == null || !byte.TryParse(nodeAddr, out byte addr)) continue;
+                                var key = new RiserKey(overpassId, wayId, productId, riserNumber, addr);
+                                var riser = new Riser() { Key = key };
+                                riserKeys.Add(key);
+                                // загрузка объектов стояков
+                                Data.Risers.TryAdd(key, riser);
+                            }
                             //
                             var fetcher = new BackgroundWorker { WorkerSupportsCancellation = true, WorkerReportsProgress = true };
                             fetcher.ProgressChanged += Fetcher_ProgressChanged;
@@ -77,24 +92,12 @@ namespace NalivARM10
                             {
                                 case "Ethernet":
                                     fetcher.DoWork += EthernetFetcher_DoWork;
-                                    fetchers.Add(fetcher, new EthernetTuning(ethernet));
+                                    fetchers.Add(fetcher, new EthernetTuning(ethernet) { RiserKeys = riserKeys });
                                     break;
                                 case "Serial":
                                     fetcher.DoWork += SerialFetcher_DoWork;
-                                    fetchers.Add(fetcher, new SerialTuning(serial));
+                                    fetchers.Add(fetcher, new SerialTuning(serial) { RiserKeys = riserKeys });
                                     break;
-                            }
-                            foreach (XElement riserElement in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
-                            {
-                                var number = riserElement.Attribute("Number")?.Value;
-                                if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
-                                var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
-                                if (nodeAddr == null || !byte.TryParse(nodeAddr, out byte addr)) continue;
-                                var riser = new Riser() { OverpassId = overpassId, WayId = wayId, ProductId = productId, Number = riserNumber, NodeAddr = addr };
-
-                                riser.Level = npp++;
-
-                                Data.Risers.TryAdd(new RiserKey(overpassId, wayId, productId, riserNumber), riser);
                             }
 
                         }
@@ -117,40 +120,109 @@ namespace NalivARM10
         {
             var worker = (BackgroundWorker)sender;
             if (!(e.Argument is SerialTuning pars)) return;
-            using (var port = new ModbusSerialPort())
+            var queue = new Queue<RiserKey>(pars.RiserKeys);
+            using (var port = new SerialPort())
             {
                 port.PortName = pars.PortName;
                 port.BaudRate = pars.BaudRate;
                 port.Parity = pars.Parity;
-                port.StopBits = System.IO.Ports.StopBits.Two;
+                port.StopBits = StopBits.Two;
                 try
                 {
+                    port.WriteTimeout = 5000;
+                    port.ReadTimeout = 5000;
                     port.Open();
-                    worker.ReportProgress(0, $"{port.PortName} открыт");
-                    try
+                    if (port.IsOpen)
                     {
-                        var lastsecond = DateTime.Now.Second;
-                        while (!worker.CancellationPending)
+                        worker.ReportProgress(0, $"{port.PortName} открыт");
+                        try
                         {
-                            Thread.Sleep(1);
-                            var dt = DateTime.Now;
-                            if (lastsecond == dt.Second) continue;
-                            lastsecond = dt.Second;
-                            // прошла секунда
-                            try
+                            var lastsecond = DateTime.Now.Second;
+                            while (!worker.CancellationPending)
                             {
+                                Thread.Sleep(1);
+                                var dt = DateTime.Now;
+                                if (lastsecond == dt.Second) continue;
+                                lastsecond = dt.Second;
+                                // прошла секунда
+                                try
+                                {
+                                    port.DiscardInBuffer();
+                                    port.DiscardOutBuffer();
+                                    var list = new List<RiserKey>();
+                                    while (queue.Count > 0)
+                                    {
+                                        var key = queue.Dequeue();
+                                        list.Add(key);
+                                        var func = 3;
+                                        var address = 0;
+                                        var datacount = 61;
 
+                                        var sendBytes = EncodeData((byte)key.NodeAddr, (byte)func,
+                                                                   (byte)(address >> 8), (byte)(address & 0xff),
+                                                                   (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
+                                        var buff = new List<byte>(sendBytes);
+                                        var crc = BitConverter.GetBytes(Crc(buff.ToArray(), buff.Count - 2));
+                                        sendBytes[sendBytes.Length - 2] = crc[0];
+                                        sendBytes[sendBytes.Length - 1] = crc[1];
+
+                                        var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
+                                        port.Write(sendBytes, 0, sendBytes.Length);
+                                        Thread.Sleep(200);
+                                        var bytesToRead = port.BytesToRead;
+                                        if (bytesToRead == len)
+                                        {
+                                            buff.Clear();
+                                            while (len-- > 0)
+                                                buff.Add((byte)port.ReadByte());
+                                            // конец приёма блока данных
+                                            var crcCalc = Crc(buff.ToArray(), buff.Count - 2);
+                                            var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
+                                            if (crcCalc == crcBuff)
+                                            {
+                                                // данные получены правильно
+                                                var regcount = buff[2] / 2;
+                                                var fetchvals = new ushort[regcount];
+                                                var n = 3;
+                                                for (var i = 0; i < regcount; i++)
+                                                {
+                                                    var raw = new byte[2];
+                                                    raw[0] = buff[n + 1];
+                                                    raw[1] = buff[n];
+                                                    fetchvals[i] = BitConverter.ToUInt16(raw, 0);
+                                                    n += 2;
+                                                }
+                                                //--------------------
+                                                if (Data.Risers.TryGetValue(key, out Riser riser))
+                                                    riser.Update(fetchvals);
+                                            }
+                                            else
+                                            {
+                                                // ошибка контрольной суммы
+                                                if (Data.Risers.TryGetValue(key, out Riser riser))
+                                                    riser.Update(new ushort[] { });
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Data.Risers.TryGetValue(key, out Riser riser))
+                                                riser.Update(new ushort[] { });
+                                        }
+                                    }
+                                    foreach (var key in list)
+                                        queue.Enqueue(key);
+                                }
+                                catch (Exception ex)
+                                {
+                                    worker.ReportProgress(0, ex.Message);
+                                }
                             }
-                            catch (Exception ex)
-                            {
-                                worker.ReportProgress(0, ex.Message);
-                            }
+
                         }
-
-                    }
-                    finally
-                    {
-                        port.Close();
+                        finally
+                        {
+                            port.Close();
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -158,6 +230,32 @@ namespace NalivARM10
                     worker.ReportProgress(0, ex.Message);
                 }
             }
+        }
+
+        private static byte[] EncodeData(params byte[] list)
+        {
+            var result = new byte[list.Length];
+            for (var i = 0; i < list.Length; i++) result[i] = list[i];
+            return result;
+        }
+
+        private static ushort Crc(IList<byte> buff, int len)
+        {   // контрольная сумма MODBUS RTU
+            ushort result = 0xFFFF;
+            if (len <= buff.Count)
+            {
+                for (var i = 0; i < len; i++)
+                {
+                    result ^= buff[i];
+                    for (var j = 0; j < 8; j++)
+                    {
+                        var flag = (result & 0x0001) > 0;
+                        result >>= 1;
+                        if (flag) result ^= 0xA001;
+                    }
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -228,13 +326,15 @@ namespace NalivARM10
                 var productId = productNode.ProductId;
                 var wayId = ((WayTreeNode)productNode.Parent).WayId;
                 var overpassId = ((OverpassTreeNode)productNode.Parent.Parent).OverpassId;
-                foreach (XElement riser in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
+                foreach (XElement riserElement in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
                 {
-                    var number = riser.Attribute("Number")?.Value;
+                    var number = riserElement.Attribute("Number")?.Value;
                     if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
-                    var nodeAddr = riser.Attribute("NodeAddr")?.Value;
-                    if (nodeAddr == null) continue;
-                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber));
+                    var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
+                    if (nodeAddr == null || !uint.TryParse(nodeAddr, out uint addr)) continue;
+                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber, addr));
+                    if (Data.Risers.TryGetValue(pan.RiserKey, out Riser riser))
+                        pan.UpdateData(riser.Registers);
                     pan.IsFocused += Pan_IsFocused;
                     list.Add(pan);
                 }
@@ -248,6 +348,15 @@ namespace NalivARM10
                 tscbRisersList.Items.Add(pan);
             }
             panRisers.ResumeLayout();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            foreach (var pan in panRisers.Controls.OfType<RiserPanel>())
+            {
+                if (Data.Risers.TryGetValue(pan.RiserKey, out Riser riser))
+                    pan.UpdateData(riser.Registers);
+            }
         }
 
         /// <summary>
@@ -267,6 +376,11 @@ namespace NalivARM10
             Close();
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
+        }
+
         private void tscbRisersList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var pan = (RiserPanel)tscbRisersList.SelectedItem;
@@ -277,6 +391,57 @@ namespace NalivARM10
         {
             var pan = (RiserPanel)tscbRisersList.SelectedItem;
             pan?.Focus();
+        }
+
+        /// <summary>
+        /// Вызов статуса стояка
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiStatus_Click(object sender, EventArgs e)
+        {
+            var pan = (RiserPanel)tscbRisersList.SelectedItem;
+            if (pan == null) return;
+            var statusForm = Application.OpenForms.OfType<StatusForm>().FirstOrDefault() ?? new StatusForm(pan.RiserKey) { Owner = this };
+            statusForm.RiserKey = pan.RiserKey;
+            statusForm.Show();
+            statusForm.BringToFront();
+        }
+
+        private void ShowRiserConfig(int tabNo)
+        {
+            var pan = (RiserPanel)tscbRisersList.SelectedItem;
+            if (pan == null) return;
+            var configForm = Application.OpenForms.OfType<RiserTuningForm>().FirstOrDefault() ?? new RiserTuningForm(pan.RiserKey, tabNo) { Owner = this };
+            configForm.RiserKey = pan.RiserKey;
+            configForm.TabNo = tabNo;
+            configForm.Show();
+            configForm.BringToFront();
+        }
+
+        private void tsmiLink_Click(object sender, EventArgs e)
+        {
+            ShowRiserConfig(0);
+        }
+
+        private void tsmiPLC_Click(object sender, EventArgs e)
+        {
+            ShowRiserConfig(1);
+        }
+
+        private void tsmiADC_Click(object sender, EventArgs e)
+        {
+            ShowRiserConfig(2);
+        }
+
+        private void tsmiAlarmLevel_Click(object sender, EventArgs e)
+        {
+            ShowRiserConfig(3);
+        }
+
+        private void tsmiProductLevel_Click(object sender, EventArgs e)
+        {
+            ShowRiserConfig(4);
         }
     }
 }

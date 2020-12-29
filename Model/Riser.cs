@@ -2,12 +2,13 @@
 {
     public class Riser
     {
-        public string OverpassId { get; set; }
-        public string WayId { get; set; }
-        public string ProductId { get; set; }
-        public uint Number { get; set; }
-        public byte NodeAddr { get; set; }
+        public RiserKey Key { get; set; }
 
-        public int Level { get; set; }
+        public ushort[] Registers { get; private set; }
+
+        public void Update(ushort[] fetchvals)
+        {
+            this.Registers = fetchvals;
+        }
     }
 }

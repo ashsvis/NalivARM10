@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
+<!--
   <Overpass Id="1" Name="Эстакада 1">
     <Way Id="2" Name="Путь 2">
       <Product Id="D" Name="Дизель">
@@ -115,6 +116,7 @@
       </Product>
     </Way>
   </Overpass>
+-->
   <Overpass Id="2" Name="Эстакада 2">
     <Way Id="35" Name="Путь 3,5">
       <Product Id="D" Name="Дизель">
@@ -135,6 +137,7 @@
           <Riser Number="66" NodeAddr="14"/>
           <Riser Number="67" NodeAddr="15"/>
         </Segment>
+        <!--
         <Segment Type="Serial" Serial="COM6,9600,N" Ethernet="10.9.4.56">
           <Riser Number="68" NodeAddr="16"/>
           <Riser Number="69" NodeAddr="17"/>
@@ -174,7 +177,9 @@
           <Riser Number="103" NodeAddr="51"/>
           <Riser Number="104" NodeAddr="52"/>
         </Segment>
+        -->
       </Product>
+      <!--
       <Product Id="M" Name="Мазут, газойль">
         <Segment Type="Serial" Serial="COM4,38400,N" Ethernet="10.9.4.57">
           <Riser Number="1" NodeAddr="101"/>
@@ -233,8 +238,10 @@
           <Riser Number="39" NodeAddr="139"/>
         </Segment>
       </Product>
+      -->
     </Way>
   </Overpass>
+ <!--
   <Overpass Id="3" Name="Эстакада 3">
     <Way Id="7" Name="Путь 7">
       <Product Id="O" Name="Масло">
@@ -363,4 +370,5 @@
       </Product>
     </Way>
   </Overpass>
+-->
 </Configuration>
