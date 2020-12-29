@@ -5,113 +5,113 @@
     <Way Id="2" Name="Путь 2">
       <Product Id="D" Name="Дизель">
         <Segment Type="Serial" Serial="COM1,9600,N" Ethernet="10.9.4.51">
-          <Riser Number="33" NodeAddr="33"/>
-          <Riser Number="35" NodeAddr="35"/>
-          <Riser Number="37" NodeAddr="37"/>
-          <Riser Number="39" NodeAddr="39"/>
-          <Riser Number="41" NodeAddr="41"/>
-          <Riser Number="43" NodeAddr="43"/>
-          <Riser Number="45" NodeAddr="45"/>
-          <Riser Number="47" NodeAddr="47"/>
-          <Riser Number="49" NodeAddr="49"/>
-          <Riser Number="51" NodeAddr="51"/>
-          <Riser Number="53" NodeAddr="53"/>
-          <Riser Number="55" NodeAddr="55"/>
-          <Riser Number="57" NodeAddr="57"/>
-          <Riser Number="59" NodeAddr="59"/>
-          <Riser Number="61" NodeAddr="61"/>
-          <Riser Number="63" NodeAddr="63"/>
+          <Riser Number="33" NodeAddr="33" NodeFunc="3"/>
+          <Riser Number="35" NodeAddr="35" NodeFunc="3"/>
+          <Riser Number="37" NodeAddr="37" NodeFunc="3"/>
+          <Riser Number="39" NodeAddr="39" NodeFunc="3"/>
+          <Riser Number="41" NodeAddr="41" NodeFunc="3"/>
+          <Riser Number="43" NodeAddr="43" NodeFunc="3"/>
+          <Riser Number="45" NodeAddr="45" NodeFunc="3"/>
+          <Riser Number="47" NodeAddr="47" NodeFunc="3"/>
+          <Riser Number="49" NodeAddr="49" NodeFunc="3"/>
+          <Riser Number="51" NodeAddr="51" NodeFunc="3"/>
+          <Riser Number="53" NodeAddr="53" NodeFunc="3"/>
+          <Riser Number="55" NodeAddr="55" NodeFunc="3"/>
+          <Riser Number="57" NodeAddr="57" NodeFunc="3"/>
+          <Riser Number="59" NodeAddr="59" NodeFunc="3"/>
+          <Riser Number="61" NodeAddr="61" NodeFunc="3"/>
+          <Riser Number="63" NodeAddr="63" NodeFunc="3"/>
         </Segment>
         <Segment Type="Serial" Serial="COM2,9600,N" Ethernet="10.9.4.52">
-          <Riser Number="65" NodeAddr="65"/>
-          <Riser Number="67" NodeAddr="67"/>
-          <Riser Number="69" NodeAddr="69"/>
-          <Riser Number="71" NodeAddr="71"/>
-          <Riser Number="73" NodeAddr="73"/>
-          <Riser Number="75" NodeAddr="75"/>
-          <Riser Number="77" NodeAddr="77"/>
-          <Riser Number="79" NodeAddr="79"/>
-          <Riser Number="81" NodeAddr="81"/>
-          <Riser Number="83" NodeAddr="83"/>
-          <Riser Number="85" NodeAddr="85"/>
-          <Riser Number="87" NodeAddr="87"/>
-          <Riser Number="89" NodeAddr="89"/>
-          <Riser Number="91" NodeAddr="91"/>
-          <Riser Number="93" NodeAddr="93"/>
-          <Riser Number="95" NodeAddr="95"/>
+          <Riser Number="65" NodeAddr="65" NodeFunc="3"/>
+          <Riser Number="67" NodeAddr="67" NodeFunc="3"/>
+          <Riser Number="69" NodeAddr="69" NodeFunc="3"/>
+          <Riser Number="71" NodeAddr="71" NodeFunc="3"/>
+          <Riser Number="73" NodeAddr="73" NodeFunc="3"/>
+          <Riser Number="75" NodeAddr="75" NodeFunc="3"/>
+          <Riser Number="77" NodeAddr="77" NodeFunc="3"/>
+          <Riser Number="79" NodeAddr="79" NodeFunc="3"/>
+          <Riser Number="81" NodeAddr="81" NodeFunc="3"/>
+          <Riser Number="83" NodeAddr="83" NodeFunc="3"/>
+          <Riser Number="85" NodeAddr="85" NodeFunc="3"/>
+          <Riser Number="87" NodeAddr="87" NodeFunc="3"/>
+          <Riser Number="89" NodeAddr="89" NodeFunc="3"/>
+          <Riser Number="91" NodeAddr="91" NodeFunc="3"/>
+          <Riser Number="93" NodeAddr="93" NodeFunc="3"/>
+          <Riser Number="95" NodeAddr="95" NodeFunc="3"/>
         </Segment>
       </Product>
       <Product Id="T" Name="ТС">
         <Segment Type="Serial" Serial="COM1,38400,N" Ethernet="10.9.4.54">
-          <Riser Number="34" NodeAddr="34"/>
-          <Riser Number="36" NodeAddr="36"/>
-          <Riser Number="38" NodeAddr="38"/>
-          <Riser Number="40" NodeAddr="40"/>
-          <Riser Number="42" NodeAddr="42"/>
-          <Riser Number="44" NodeAddr="44"/>
-          <Riser Number="46" NodeAddr="46"/>
-          <Riser Number="48" NodeAddr="48"/>
-          <Riser Number="50" NodeAddr="50"/>
-          <Riser Number="52" NodeAddr="52"/>
-          <Riser Number="54" NodeAddr="54"/>
-          <Riser Number="56" NodeAddr="56"/>
-          <Riser Number="58" NodeAddr="58"/>
-          <Riser Number="60" NodeAddr="60"/>
-          <Riser Number="62" NodeAddr="62"/>
-          <Riser Number="64" NodeAddr="64"/>
-          <Riser Number="66" NodeAddr="66"/>
-          <Riser Number="68" NodeAddr="68"/>
-          <Riser Number="70" NodeAddr="70"/>
-          <Riser Number="72" NodeAddr="72"/>
-          <Riser Number="74" NodeAddr="74"/>
-          <Riser Number="76" NodeAddr="76"/>
-          <Riser Number="78" NodeAddr="78"/>
-          <Riser Number="80" NodeAddr="80"/>
-          <Riser Number="82" NodeAddr="82"/>
-          <Riser Number="84" NodeAddr="84"/>
-          <Riser Number="86" NodeAddr="86"/>
-          <Riser Number="88" NodeAddr="88"/>
-          <Riser Number="90" NodeAddr="90"/>
-          <Riser Number="92" NodeAddr="92"/>
-          <Riser Number="94" NodeAddr="94"/>
+          <Riser Number="34" NodeAddr="34" NodeFunc="3"/>
+          <Riser Number="36" NodeAddr="36" NodeFunc="3"/>
+          <Riser Number="38" NodeAddr="38" NodeFunc="3"/>
+          <Riser Number="40" NodeAddr="40" NodeFunc="3"/>
+          <Riser Number="42" NodeAddr="42" NodeFunc="3"/>
+          <Riser Number="44" NodeAddr="44" NodeFunc="3"/>
+          <Riser Number="46" NodeAddr="46" NodeFunc="3"/>
+          <Riser Number="48" NodeAddr="48" NodeFunc="3"/>
+          <Riser Number="50" NodeAddr="50" NodeFunc="3"/>
+          <Riser Number="52" NodeAddr="52" NodeFunc="3"/>
+          <Riser Number="54" NodeAddr="54" NodeFunc="3"/>
+          <Riser Number="56" NodeAddr="56" NodeFunc="3"/>
+          <Riser Number="58" NodeAddr="58" NodeFunc="3"/>
+          <Riser Number="60" NodeAddr="60" NodeFunc="3"/>
+          <Riser Number="62" NodeAddr="62" NodeFunc="3"/>
+          <Riser Number="64" NodeAddr="64" NodeFunc="3"/>
+          <Riser Number="66" NodeAddr="66" NodeFunc="3"/>
+          <Riser Number="68" NodeAddr="68" NodeFunc="3"/>
+          <Riser Number="70" NodeAddr="70" NodeFunc="3"/>
+          <Riser Number="72" NodeAddr="72" NodeFunc="3"/>
+          <Riser Number="74" NodeAddr="74" NodeFunc="3"/>
+          <Riser Number="76" NodeAddr="76" NodeFunc="3"/>
+          <Riser Number="78" NodeAddr="78" NodeFunc="3"/>
+          <Riser Number="80" NodeAddr="80" NodeFunc="3"/>
+          <Riser Number="82" NodeAddr="82" NodeFunc="3"/>
+          <Riser Number="84" NodeAddr="84" NodeFunc="3"/>
+          <Riser Number="86" NodeAddr="86" NodeFunc="3"/>
+          <Riser Number="88" NodeAddr="88" NodeFunc="3"/>
+          <Riser Number="90" NodeAddr="90" NodeFunc="3"/>
+          <Riser Number="92" NodeAddr="92" NodeFunc="3"/>
+          <Riser Number="94" NodeAddr="94" NodeFunc="3"/>
         </Segment>
       </Product>
     </Way>
     <Way Id="4" Name="Путь 4">
       <Product Id="D" Name="Дизель">
         <Segment Type="Serial" Serial="COM3,38400,N" Ethernet="10.9.4.53">
-          <Riser Number="1" NodeAddr="1"/>
-          <Riser Number="2" NodeAddr="2"/>
-          <Riser Number="3" NodeAddr="3"/>
-          <Riser Number="4" NodeAddr="4"/>
-          <Riser Number="5" NodeAddr="5"/>
-          <Riser Number="6" NodeAddr="6"/>
-          <Riser Number="7" NodeAddr="7"/>
-          <Riser Number="8" NodeAddr="8"/>
-          <Riser Number="9" NodeAddr="9"/>
-          <Riser Number="10" NodeAddr="10"/>
-          <Riser Number="11" NodeAddr="11"/>
-          <Riser Number="12" NodeAddr="12"/>
-          <Riser Number="13" NodeAddr="13"/>
-          <Riser Number="14" NodeAddr="14"/>
-          <Riser Number="15" NodeAddr="15"/>
-          <Riser Number="16" NodeAddr="16"/>
-          <Riser Number="17" NodeAddr="17"/>
-          <Riser Number="18" NodeAddr="18"/>
-          <Riser Number="19" NodeAddr="19"/>
-          <Riser Number="20" NodeAddr="20"/>
-          <Riser Number="21" NodeAddr="21"/>
-          <Riser Number="22" NodeAddr="22"/>
-          <Riser Number="23" NodeAddr="23"/>
-          <Riser Number="24" NodeAddr="24"/>
-          <Riser Number="25" NodeAddr="25"/>
-          <Riser Number="26" NodeAddr="26"/>
-          <Riser Number="27" NodeAddr="27"/>
-          <Riser Number="28" NodeAddr="28"/>
-          <Riser Number="29" NodeAddr="29"/>
-          <Riser Number="30" NodeAddr="30"/>
-          <Riser Number="31" NodeAddr="31"/>
-          <Riser Number="32" NodeAddr="32"/>
+          <Riser Number="1" NodeAddr="1" NodeFunc="3"/>
+          <Riser Number="2" NodeAddr="2" NodeFunc="3"/>
+          <Riser Number="3" NodeAddr="3" NodeFunc="3"/>
+          <Riser Number="4" NodeAddr="4" NodeFunc="3"/>
+          <Riser Number="5" NodeAddr="5" NodeFunc="3"/>
+          <Riser Number="6" NodeAddr="6" NodeFunc="3"/>
+          <Riser Number="7" NodeAddr="7" NodeFunc="3"/>
+          <Riser Number="8" NodeAddr="8" NodeFunc="3"/>
+          <Riser Number="9" NodeAddr="9" NodeFunc="3"/>
+          <Riser Number="10" NodeAddr="10" NodeFunc="3"/>
+          <Riser Number="11" NodeAddr="11" NodeFunc="3"/>
+          <Riser Number="12" NodeAddr="12" NodeFunc="3"/>
+          <Riser Number="13" NodeAddr="13" NodeFunc="3"/>
+          <Riser Number="14" NodeAddr="14" NodeFunc="3"/>
+          <Riser Number="15" NodeAddr="15" NodeFunc="3"/>
+          <Riser Number="16" NodeAddr="16" NodeFunc="3"/>
+          <Riser Number="17" NodeAddr="17" NodeFunc="3"/>
+          <Riser Number="18" NodeAddr="18" NodeFunc="3"/>
+          <Riser Number="19" NodeAddr="19" NodeFunc="3"/>
+          <Riser Number="20" NodeAddr="20" NodeFunc="3"/>
+          <Riser Number="21" NodeAddr="21" NodeFunc="3"/>
+          <Riser Number="22" NodeAddr="22" NodeFunc="3"/>
+          <Riser Number="23" NodeAddr="23" NodeFunc="3"/>
+          <Riser Number="24" NodeAddr="24" NodeFunc="3"/>
+          <Riser Number="25" NodeAddr="25" NodeFunc="3"/>
+          <Riser Number="26" NodeAddr="26" NodeFunc="3"/>
+          <Riser Number="27" NodeAddr="27" NodeFunc="3"/>
+          <Riser Number="28" NodeAddr="28" NodeFunc="3"/>
+          <Riser Number="29" NodeAddr="29" NodeFunc="3"/>
+          <Riser Number="30" NodeAddr="30" NodeFunc="3"/>
+          <Riser Number="31" NodeAddr="31" NodeFunc="3"/>
+          <Riser Number="32" NodeAddr="32" NodeFunc="3"/>
         </Segment>
       </Product>
     </Way>
@@ -121,121 +121,121 @@
     <Way Id="35" Name="Путь 3,5">
       <Product Id="D" Name="Дизель">
         <Segment Type="Serial" Serial="COM5,9600,N" Ethernet="10.9.4.55">
-          <Riser Number="53" NodeAddr="1"/>
-          <Riser Number="54" NodeAddr="2"/>
-          <Riser Number="55" NodeAddr="3"/>
-          <Riser Number="56" NodeAddr="4"/>
-          <Riser Number="57" NodeAddr="5"/>
-          <Riser Number="58" NodeAddr="6"/>
-          <Riser Number="59" NodeAddr="7"/>
-          <Riser Number="60" NodeAddr="8"/>
-          <Riser Number="61" NodeAddr="9"/>
-          <Riser Number="62" NodeAddr="10"/>
-          <Riser Number="63" NodeAddr="11"/>
-          <Riser Number="64" NodeAddr="12"/>
-          <Riser Number="65" NodeAddr="13"/>
-          <Riser Number="66" NodeAddr="14"/>
-          <Riser Number="67" NodeAddr="15"/>
+          <Riser Number="53" NodeAddr="1" NodeFunc="3"/>
+          <Riser Number="54" NodeAddr="2" NodeFunc="3"/>
+          <Riser Number="55" NodeAddr="3" NodeFunc="3"/>
+          <Riser Number="56" NodeAddr="4" NodeFunc="3"/>
+          <Riser Number="57" NodeAddr="5" NodeFunc="3"/>
+          <Riser Number="58" NodeAddr="6" NodeFunc="3"/>
+          <Riser Number="59" NodeAddr="7" NodeFunc="3"/>
+          <Riser Number="60" NodeAddr="8" NodeFunc="3"/>
+          <Riser Number="61" NodeAddr="9" NodeFunc="3"/>
+          <Riser Number="62" NodeAddr="10" NodeFunc="3"/>
+          <Riser Number="63" NodeAddr="11" NodeFunc="3"/>
+          <Riser Number="64" NodeAddr="12" NodeFunc="3"/>
+          <Riser Number="65" NodeAddr="13" NodeFunc="3"/>
+          <Riser Number="66" NodeAddr="14" NodeFunc="3"/>
+          <Riser Number="67" NodeAddr="15" NodeFunc="3"/>
         </Segment>
         <!--
         <Segment Type="Serial" Serial="COM6,9600,N" Ethernet="10.9.4.56">
-          <Riser Number="68" NodeAddr="16"/>
-          <Riser Number="69" NodeAddr="17"/>
-          <Riser Number="70" NodeAddr="18"/>
-          <Riser Number="71" NodeAddr="19"/>
-          <Riser Number="72" NodeAddr="20"/>
-          <Riser Number="73" NodeAddr="21"/>
-          <Riser Number="74" NodeAddr="22"/>
-          <Riser Number="75" NodeAddr="23"/>
-          <Riser Number="76" NodeAddr="24"/>
-          <Riser Number="77" NodeAddr="25"/>
-          <Riser Number="78" NodeAddr="26"/>
-          <Riser Number="79" NodeAddr="27"/>
-          <Riser Number="80" NodeAddr="28"/>
-          <Riser Number="81" NodeAddr="29"/>
-          <Riser Number="82" NodeAddr="30"/>
-          <Riser Number="83" NodeAddr="31"/>
-          <Riser Number="84" NodeAddr="32"/>
-          <Riser Number="85" NodeAddr="33"/>
-          <Riser Number="86" NodeAddr="34"/>
-          <Riser Number="87" NodeAddr="35"/>
-          <Riser Number="88" NodeAddr="36"/>
-          <Riser Number="89" NodeAddr="37"/>
-          <Riser Number="90" NodeAddr="38"/>
-          <Riser Number="91" NodeAddr="39"/>
-          <Riser Number="92" NodeAddr="40"/>
-          <Riser Number="93" NodeAddr="41"/>
-          <Riser Number="94" NodeAddr="42"/>
-          <Riser Number="95" NodeAddr="43"/>
-          <Riser Number="96" NodeAddr="44"/>
-          <Riser Number="97" NodeAddr="45"/>
-          <Riser Number="98" NodeAddr="46"/>
-          <Riser Number="99" NodeAddr="47"/>
-          <Riser Number="100" NodeAddr="48"/>
-          <Riser Number="101" NodeAddr="49"/>
-          <Riser Number="102" NodeAddr="50"/>
-          <Riser Number="103" NodeAddr="51"/>
-          <Riser Number="104" NodeAddr="52"/>
+          <Riser Number="68" NodeAddr="16" NodeFunc="3"/>
+          <Riser Number="69" NodeAddr="17" NodeFunc="3"/>
+          <Riser Number="70" NodeAddr="18" NodeFunc="3"/>
+          <Riser Number="71" NodeAddr="19" NodeFunc="3"/>
+          <Riser Number="72" NodeAddr="20" NodeFunc="3"/>
+          <Riser Number="73" NodeAddr="21" NodeFunc="3"/>
+          <Riser Number="74" NodeAddr="22" NodeFunc="3"/>
+          <Riser Number="75" NodeAddr="23" NodeFunc="3"/>
+          <Riser Number="76" NodeAddr="24" NodeFunc="3"/>
+          <Riser Number="77" NodeAddr="25" NodeFunc="3"/>
+          <Riser Number="78" NodeAddr="26" NodeFunc="3"/>
+          <Riser Number="79" NodeAddr="27" NodeFunc="3"/>
+          <Riser Number="80" NodeAddr="28" NodeFunc="3"/>
+          <Riser Number="81" NodeAddr="29" NodeFunc="3"/>
+          <Riser Number="82" NodeAddr="30" NodeFunc="3"/>
+          <Riser Number="83" NodeAddr="31" NodeFunc="3"/>
+          <Riser Number="84" NodeAddr="32" NodeFunc="3"/>
+          <Riser Number="85" NodeAddr="33" NodeFunc="3"/>
+          <Riser Number="86" NodeAddr="34" NodeFunc="3"/>
+          <Riser Number="87" NodeAddr="35" NodeFunc="3"/>
+          <Riser Number="88" NodeAddr="36" NodeFunc="3"/>
+          <Riser Number="89" NodeAddr="37" NodeFunc="3"/>
+          <Riser Number="90" NodeAddr="38" NodeFunc="3"/>
+          <Riser Number="91" NodeAddr="39" NodeFunc="3"/>
+          <Riser Number="92" NodeAddr="40" NodeFunc="3"/>
+          <Riser Number="93" NodeAddr="41" NodeFunc="3"/>
+          <Riser Number="94" NodeAddr="42" NodeFunc="3"/>
+          <Riser Number="95" NodeAddr="43" NodeFunc="3"/>
+          <Riser Number="96" NodeAddr="44" NodeFunc="3"/>
+          <Riser Number="97" NodeAddr="45" NodeFunc="3"/>
+          <Riser Number="98" NodeAddr="46" NodeFunc="3"/>
+          <Riser Number="99" NodeAddr="47" NodeFunc="3"/>
+          <Riser Number="100" NodeAddr="48" NodeFunc="3"/>
+          <Riser Number="101" NodeAddr="49" NodeFunc="3"/>
+          <Riser Number="102" NodeAddr="50" NodeFunc="3"/>
+          <Riser Number="103" NodeAddr="51" NodeFunc="3"/>
+          <Riser Number="104" NodeAddr="52" NodeFunc="3"/>
         </Segment>
         -->
       </Product>
       <!--
       <Product Id="M" Name="Мазут, газойль">
         <Segment Type="Serial" Serial="COM4,38400,N" Ethernet="10.9.4.57">
-          <Riser Number="1" NodeAddr="101"/>
-          <Riser Number="2" NodeAddr="102"/>
-          <Riser Number="3" NodeAddr="103"/>
-          <Riser Number="4" NodeAddr="104"/>
-          <Riser Number="5" NodeAddr="105"/>
-          <Riser Number="6" NodeAddr="106"/>
-          <Riser Number="7" NodeAddr="107"/>
-          <Riser Number="8" NodeAddr="108"/>
-          <Riser Number="9" NodeAddr="109"/>
-          <Riser Number="10" NodeAddr="110"/>
-          <Riser Number="11" NodeAddr="111"/>
-          <Riser Number="12" NodeAddr="112"/>
-          <Riser Number="13" NodeAddr="113"/>
-          <Riser Number="40" NodeAddr="140"/>
-          <Riser Number="41" NodeAddr="141"/>
-          <Riser Number="42" NodeAddr="142"/>
-          <Riser Number="43" NodeAddr="143"/>
-          <Riser Number="44" NodeAddr="144"/>
-          <Riser Number="45" NodeAddr="145"/>
-          <Riser Number="46" NodeAddr="146"/>
-          <Riser Number="47" NodeAddr="147"/>
-          <Riser Number="48" NodeAddr="148"/>
-          <Riser Number="49" NodeAddr="149"/>
-          <Riser Number="50" NodeAddr="150"/>
-          <Riser Number="51" NodeAddr="151"/>
-          <Riser Number="52" NodeAddr="152"/>
+          <Riser Number="1" NodeAddr="101" NodeFunc="3"/>
+          <Riser Number="2" NodeAddr="102" NodeFunc="3"/>
+          <Riser Number="3" NodeAddr="103" NodeFunc="3"/>
+          <Riser Number="4" NodeAddr="104" NodeFunc="3"/>
+          <Riser Number="5" NodeAddr="105" NodeFunc="3"/>
+          <Riser Number="6" NodeAddr="106" NodeFunc="3"/>
+          <Riser Number="7" NodeAddr="107" NodeFunc="3"/>
+          <Riser Number="8" NodeAddr="108" NodeFunc="3"/>
+          <Riser Number="9" NodeAddr="109" NodeFunc="3"/>
+          <Riser Number="10" NodeAddr="110" NodeFunc="3"/>
+          <Riser Number="11" NodeAddr="111" NodeFunc="3"/>
+          <Riser Number="12" NodeAddr="112" NodeFunc="3"/>
+          <Riser Number="13" NodeAddr="113" NodeFunc="3"/>
+          <Riser Number="40" NodeAddr="140" NodeFunc="3"/>
+          <Riser Number="41" NodeAddr="141" NodeFunc="3"/>
+          <Riser Number="42" NodeAddr="142" NodeFunc="3"/>
+          <Riser Number="43" NodeAddr="143" NodeFunc="3"/>
+          <Riser Number="44" NodeAddr="144" NodeFunc="3"/>
+          <Riser Number="45" NodeAddr="145" NodeFunc="3"/>
+          <Riser Number="46" NodeAddr="146" NodeFunc="3"/>
+          <Riser Number="47" NodeAddr="147" NodeFunc="3"/>
+          <Riser Number="48" NodeAddr="148" NodeFunc="3"/>
+          <Riser Number="49" NodeAddr="149" NodeFunc="3"/>
+          <Riser Number="50" NodeAddr="150" NodeFunc="3"/>
+          <Riser Number="51" NodeAddr="151" NodeFunc="3"/>
+          <Riser Number="52" NodeAddr="152" NodeFunc="3"/>
         </Segment>
         <Segment Type="Serial" Serial="COM5,38400,N" Ethernet="10.9.4.58">
-          <Riser Number="14" NodeAddr="114"/>
-          <Riser Number="15" NodeAddr="115"/>
-          <Riser Number="16" NodeAddr="116"/>
-          <Riser Number="17" NodeAddr="117"/>
-          <Riser Number="18" NodeAddr="118"/>
-          <Riser Number="19" NodeAddr="119"/>
-          <Riser Number="20" NodeAddr="120"/>
-          <Riser Number="21" NodeAddr="121"/>
-          <Riser Number="22" NodeAddr="122"/>
-          <Riser Number="23" NodeAddr="123"/>
-          <Riser Number="24" NodeAddr="124"/>
-          <Riser Number="25" NodeAddr="125"/>
-          <Riser Number="26" NodeAddr="126"/>
-          <Riser Number="27" NodeAddr="127"/>
-          <Riser Number="28" NodeAddr="128"/>
-          <Riser Number="29" NodeAddr="129"/>
-          <Riser Number="30" NodeAddr="130"/>
-          <Riser Number="31" NodeAddr="131"/>
-          <Riser Number="32" NodeAddr="132"/>
-          <Riser Number="33" NodeAddr="133"/>
-          <Riser Number="34" NodeAddr="134"/>
-          <Riser Number="35" NodeAddr="135"/>
-          <Riser Number="36" NodeAddr="136"/>
-          <Riser Number="37" NodeAddr="137"/>
-          <Riser Number="38" NodeAddr="138"/>
-          <Riser Number="39" NodeAddr="139"/>
+          <Riser Number="14" NodeAddr="114" NodeFunc="3"/>
+          <Riser Number="15" NodeAddr="115" NodeFunc="3"/>
+          <Riser Number="16" NodeAddr="116" NodeFunc="3"/>
+          <Riser Number="17" NodeAddr="117" NodeFunc="3"/>
+          <Riser Number="18" NodeAddr="118" NodeFunc="3"/>
+          <Riser Number="19" NodeAddr="119" NodeFunc="3"/>
+          <Riser Number="20" NodeAddr="120" NodeFunc="3"/>
+          <Riser Number="21" NodeAddr="121" NodeFunc="3"/>
+          <Riser Number="22" NodeAddr="122" NodeFunc="3"/>
+          <Riser Number="23" NodeAddr="123" NodeFunc="3"/>
+          <Riser Number="24" NodeAddr="124" NodeFunc="3"/>
+          <Riser Number="25" NodeAddr="125" NodeFunc="3"/>
+          <Riser Number="26" NodeAddr="126" NodeFunc="3"/>
+          <Riser Number="27" NodeAddr="127" NodeFunc="3"/>
+          <Riser Number="28" NodeAddr="128" NodeFunc="3"/>
+          <Riser Number="29" NodeAddr="129" NodeFunc="3"/>
+          <Riser Number="30" NodeAddr="130" NodeFunc="3"/>
+          <Riser Number="31" NodeAddr="131" NodeFunc="3"/>
+          <Riser Number="32" NodeAddr="132" NodeFunc="3"/>
+          <Riser Number="33" NodeAddr="133" NodeFunc="3"/>
+          <Riser Number="34" NodeAddr="134" NodeFunc="3"/>
+          <Riser Number="35" NodeAddr="135" NodeFunc="3"/>
+          <Riser Number="36" NodeAddr="136" NodeFunc="3"/>
+          <Riser Number="37" NodeAddr="137" NodeFunc="3"/>
+          <Riser Number="38" NodeAddr="138" NodeFunc="3"/>
+          <Riser Number="39" NodeAddr="139" NodeFunc="3"/>
         </Segment>
       </Product>
       -->
@@ -246,38 +246,38 @@
     <Way Id="7" Name="Путь 7">
       <Product Id="O" Name="Масло">
         <Segment Type="Serial" Serial="COM4,9600,N" Ethernet="">
-          <Riser Number="14" NodeAddr="14"/>
-          <Riser Number="15" NodeAddr="15"/>
-          <Riser Number="16" NodeAddr="16"/>
-          <Riser Number="17" NodeAddr="17"/>
-          <Riser Number="18" NodeAddr="18"/>
-          <Riser Number="19" NodeAddr="19"/>
-          <Riser Number="20" NodeAddr="20"/>
-          <Riser Number="21" NodeAddr="21"/>
-          <Riser Number="22" NodeAddr="22"/>
-          <Riser Number="23" NodeAddr="23"/>
-          <Riser Number="24" NodeAddr="24"/>
-          <Riser Number="25" NodeAddr="25"/>
-          <Riser Number="26" NodeAddr="26"/>
+          <Riser Number="14" NodeAddr="14" NodeFunc="3"/>
+          <Riser Number="15" NodeAddr="15" NodeFunc="3"/>
+          <Riser Number="16" NodeAddr="16" NodeFunc="3"/>
+          <Riser Number="17" NodeAddr="17" NodeFunc="3"/>
+          <Riser Number="18" NodeAddr="18" NodeFunc="3"/>
+          <Riser Number="19" NodeAddr="19" NodeFunc="3"/>
+          <Riser Number="20" NodeAddr="20" NodeFunc="3"/>
+          <Riser Number="21" NodeAddr="21" NodeFunc="3"/>
+          <Riser Number="22" NodeAddr="22" NodeFunc="3"/>
+          <Riser Number="23" NodeAddr="23" NodeFunc="3"/>
+          <Riser Number="24" NodeAddr="24" NodeFunc="3"/>
+          <Riser Number="25" NodeAddr="25" NodeFunc="3"/>
+          <Riser Number="26" NodeAddr="26" NodeFunc="3"/>
         </Segment>
       </Product>
     </Way>
     <Way Id="8" Name="Путь 8">
       <Product Id="O" Name="Масло">
         <Segment Type="Serial" Serial="COM5,9600,N" Ethernet="">
-          <Riser Number="1" NodeAddr="1"/>
-          <Riser Number="2" NodeAddr="2"/>
-          <Riser Number="3" NodeAddr="3"/>
-          <Riser Number="4" NodeAddr="4"/>
-          <Riser Number="5" NodeAddr="5"/>
-          <Riser Number="6" NodeAddr="6"/>
-          <Riser Number="7" NodeAddr="7"/>
-          <Riser Number="8" NodeAddr="8"/>
-          <Riser Number="9" NodeAddr="9"/>
-          <Riser Number="10" NodeAddr="10"/>
-          <Riser Number="11" NodeAddr="11"/>
-          <Riser Number="12" NodeAddr="12"/>
-          <Riser Number="13" NodeAddr="13"/>
+          <Riser Number="1" NodeAddr="1" NodeFunc="3"/>
+          <Riser Number="2" NodeAddr="2" NodeFunc="3"/>
+          <Riser Number="3" NodeAddr="3" NodeFunc="3"/>
+          <Riser Number="4" NodeAddr="4" NodeFunc="3"/>
+          <Riser Number="5" NodeAddr="5" NodeFunc="3"/>
+          <Riser Number="6" NodeAddr="6" NodeFunc="3"/>
+          <Riser Number="7" NodeAddr="7" NodeFunc="3"/>
+          <Riser Number="8" NodeAddr="8" NodeFunc="3"/>
+          <Riser Number="9" NodeAddr="9" NodeFunc="3"/>
+          <Riser Number="10" NodeAddr="10" NodeFunc="3"/>
+          <Riser Number="11" NodeAddr="11" NodeFunc="3"/>
+          <Riser Number="12" NodeAddr="12" NodeFunc="3"/>
+          <Riser Number="13" NodeAddr="13" NodeFunc="3"/>
         </Segment>
       </Product>
     </Way>
@@ -286,86 +286,86 @@
     <Way Id="12" Name="Путь 12">
       <Product Id="B" Name="Бензин">
         <Segment Type="Serial" Serial="COM1,19200,N" Ethernet="10.9.4.59">
-          <Riser Number="1" NodeAddr="1"/>
-          <Riser Number="2" NodeAddr="2"/>
-          <Riser Number="3" NodeAddr="3"/>
-          <Riser Number="4" NodeAddr="4"/>
-          <Riser Number="5" NodeAddr="5"/>
-          <Riser Number="6" NodeAddr="6"/>
-          <Riser Number="7" NodeAddr="7"/>
-          <Riser Number="8" NodeAddr="8"/>
-          <Riser Number="9" NodeAddr="9"/>
-          <Riser Number="10" NodeAddr="10"/>
-          <Riser Number="11" NodeAddr="11"/>
-          <Riser Number="12" NodeAddr="12"/>
-          <Riser Number="13" NodeAddr="13"/>
-          <Riser Number="14" NodeAddr="14"/>
-          <Riser Number="15" NodeAddr="15"/>
-          <Riser Number="16" NodeAddr="16"/>
-          <Riser Number="17" NodeAddr="17"/>
-          <Riser Number="18" NodeAddr="18"/>
-          <Riser Number="19" NodeAddr="19"/>
-          <Riser Number="20" NodeAddr="20"/>
-          <Riser Number="21" NodeAddr="21"/>
-          <Riser Number="22" NodeAddr="22"/>
-          <Riser Number="23" NodeAddr="23"/>
-          <Riser Number="24" NodeAddr="24"/>
-          <Riser Number="25" NodeAddr="25"/>
-          <Riser Number="26" NodeAddr="26"/>
-          <Riser Number="27" NodeAddr="27"/>
-          <Riser Number="28" NodeAddr="28"/>
-          <Riser Number="29" NodeAddr="29"/>
-          <Riser Number="30" NodeAddr="30"/>
-          <Riser Number="31" NodeAddr="31"/>
-          <Riser Number="32" NodeAddr="32"/>
-          <Riser Number="33" NodeAddr="33"/>
-          <Riser Number="34" NodeAddr="34"/>
-          <Riser Number="35" NodeAddr="35"/>
-          <Riser Number="36" NodeAddr="36"/>
-          <Riser Number="37" NodeAddr="37"/>
+          <Riser Number="1" NodeAddr="1" NodeFunc="3"/>
+          <Riser Number="2" NodeAddr="2" NodeFunc="3"/>
+          <Riser Number="3" NodeAddr="3" NodeFunc="3"/>
+          <Riser Number="4" NodeAddr="4" NodeFunc="3"/>
+          <Riser Number="5" NodeAddr="5" NodeFunc="3"/>
+          <Riser Number="6" NodeAddr="6" NodeFunc="3"/>
+          <Riser Number="7" NodeAddr="7" NodeFunc="3"/>
+          <Riser Number="8" NodeAddr="8" NodeFunc="3"/>
+          <Riser Number="9" NodeAddr="9" NodeFunc="3"/>
+          <Riser Number="10" NodeAddr="10" NodeFunc="3"/>
+          <Riser Number="11" NodeAddr="11" NodeFunc="3"/>
+          <Riser Number="12" NodeAddr="12" NodeFunc="3"/>
+          <Riser Number="13" NodeAddr="13" NodeFunc="3"/>
+          <Riser Number="14" NodeAddr="14" NodeFunc="3"/>
+          <Riser Number="15" NodeAddr="15" NodeFunc="3"/>
+          <Riser Number="16" NodeAddr="16" NodeFunc="3"/>
+          <Riser Number="17" NodeAddr="17" NodeFunc="3"/>
+          <Riser Number="18" NodeAddr="18" NodeFunc="3"/>
+          <Riser Number="19" NodeAddr="19" NodeFunc="3"/>
+          <Riser Number="20" NodeAddr="20" NodeFunc="3"/>
+          <Riser Number="21" NodeAddr="21" NodeFunc="3"/>
+          <Riser Number="22" NodeAddr="22" NodeFunc="3"/>
+          <Riser Number="23" NodeAddr="23" NodeFunc="3"/>
+          <Riser Number="24" NodeAddr="24" NodeFunc="3"/>
+          <Riser Number="25" NodeAddr="25" NodeFunc="3"/>
+          <Riser Number="26" NodeAddr="26" NodeFunc="3"/>
+          <Riser Number="27" NodeAddr="27" NodeFunc="3"/>
+          <Riser Number="28" NodeAddr="28" NodeFunc="3"/>
+          <Riser Number="29" NodeAddr="29" NodeFunc="3"/>
+          <Riser Number="30" NodeAddr="30" NodeFunc="3"/>
+          <Riser Number="31" NodeAddr="31" NodeFunc="3"/>
+          <Riser Number="32" NodeAddr="32" NodeFunc="3"/>
+          <Riser Number="33" NodeAddr="33" NodeFunc="3"/>
+          <Riser Number="34" NodeAddr="34" NodeFunc="3"/>
+          <Riser Number="35" NodeAddr="35" NodeFunc="3"/>
+          <Riser Number="36" NodeAddr="36" NodeFunc="3"/>
+          <Riser Number="37" NodeAddr="37" NodeFunc="3"/>
         </Segment>
       </Product>
     </Way>
     <Way Id="13" Name="Путь 13">
       <Product Id="D" Name="Дизель">
         <Segment Type="Serial" Serial="COM1,19200,N" Ethernet="10.9.4.60">
-          <Riser Number="38" NodeAddr="38"/>
-          <Riser Number="39" NodeAddr="39"/>
-          <Riser Number="40" NodeAddr="40"/>
-          <Riser Number="41" NodeAddr="41"/>
-          <Riser Number="42" NodeAddr="42"/>
-          <Riser Number="43" NodeAddr="43"/>
-          <Riser Number="44" NodeAddr="44"/>
-          <Riser Number="45" NodeAddr="45"/>
-          <Riser Number="46" NodeAddr="46"/>
-          <Riser Number="47" NodeAddr="47"/>
-          <Riser Number="48" NodeAddr="48"/>
-          <Riser Number="49" NodeAddr="49"/>
-          <Riser Number="50" NodeAddr="50"/>
-          <Riser Number="51" NodeAddr="51"/>
-          <Riser Number="52" NodeAddr="52"/>
-          <Riser Number="53" NodeAddr="53"/>
-          <Riser Number="54" NodeAddr="54"/>
-          <Riser Number="55" NodeAddr="55"/>
-          <Riser Number="56" NodeAddr="56"/>
-          <Riser Number="57" NodeAddr="57"/>
-          <Riser Number="58" NodeAddr="58"/>
-          <Riser Number="59" NodeAddr="59"/>
-          <Riser Number="60" NodeAddr="60"/>
-          <Riser Number="61" NodeAddr="61"/>
-          <Riser Number="62" NodeAddr="62"/>
-          <Riser Number="63" NodeAddr="63"/>
-          <Riser Number="64" NodeAddr="64"/>
-          <Riser Number="65" NodeAddr="65"/>
-          <Riser Number="66" NodeAddr="66"/>
-          <Riser Number="67" NodeAddr="67"/>
-          <Riser Number="68" NodeAddr="68"/>
-          <Riser Number="69" NodeAddr="69"/>
-          <Riser Number="70" NodeAddr="70"/>
-          <Riser Number="71" NodeAddr="71"/>
-          <Riser Number="72" NodeAddr="72"/>
-          <Riser Number="73" NodeAddr="73"/>
-          <Riser Number="74" NodeAddr="74"/>
+          <Riser Number="38" NodeAddr="38" NodeFunc="3"/>
+          <Riser Number="39" NodeAddr="39" NodeFunc="3"/>
+          <Riser Number="40" NodeAddr="40" NodeFunc="3"/>
+          <Riser Number="41" NodeAddr="41" NodeFunc="3"/>
+          <Riser Number="42" NodeAddr="42" NodeFunc="3"/>
+          <Riser Number="43" NodeAddr="43" NodeFunc="3"/>
+          <Riser Number="44" NodeAddr="44" NodeFunc="3"/>
+          <Riser Number="45" NodeAddr="45" NodeFunc="3"/>
+          <Riser Number="46" NodeAddr="46" NodeFunc="3"/>
+          <Riser Number="47" NodeAddr="47" NodeFunc="3"/>
+          <Riser Number="48" NodeAddr="48" NodeFunc="3"/>
+          <Riser Number="49" NodeAddr="49" NodeFunc="3"/>
+          <Riser Number="50" NodeAddr="50" NodeFunc="3"/>
+          <Riser Number="51" NodeAddr="51" NodeFunc="3"/>
+          <Riser Number="52" NodeAddr="52" NodeFunc="3"/>
+          <Riser Number="53" NodeAddr="53" NodeFunc="3"/>
+          <Riser Number="54" NodeAddr="54" NodeFunc="3"/>
+          <Riser Number="55" NodeAddr="55" NodeFunc="3"/>
+          <Riser Number="56" NodeAddr="56" NodeFunc="3"/>
+          <Riser Number="57" NodeAddr="57" NodeFunc="3"/>
+          <Riser Number="58" NodeAddr="58" NodeFunc="3"/>
+          <Riser Number="59" NodeAddr="59" NodeFunc="3"/>
+          <Riser Number="60" NodeAddr="60" NodeFunc="3"/>
+          <Riser Number="61" NodeAddr="61" NodeFunc="3"/>
+          <Riser Number="62" NodeAddr="62" NodeFunc="3"/>
+          <Riser Number="63" NodeAddr="63" NodeFunc="3"/>
+          <Riser Number="64" NodeAddr="64" NodeFunc="3"/>
+          <Riser Number="65" NodeAddr="65" NodeFunc="3"/>
+          <Riser Number="66" NodeAddr="66" NodeFunc="3"/>
+          <Riser Number="67" NodeAddr="67" NodeFunc="3"/>
+          <Riser Number="68" NodeAddr="68" NodeFunc="3"/>
+          <Riser Number="69" NodeAddr="69" NodeFunc="3"/>
+          <Riser Number="70" NodeAddr="70" NodeFunc="3"/>
+          <Riser Number="71" NodeAddr="71" NodeFunc="3"/>
+          <Riser Number="72" NodeAddr="72" NodeFunc="3"/>
+          <Riser Number="73" NodeAddr="73" NodeFunc="3"/>
+          <Riser Number="74" NodeAddr="74" NodeFunc="3"/>
         </Segment>
       </Product>
     </Way>

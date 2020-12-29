@@ -79,7 +79,9 @@ namespace NalivARM10
                                 if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
                                 var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
                                 if (nodeAddr == null || !byte.TryParse(nodeAddr, out byte addr)) continue;
-                                var key = new RiserKey(overpassId, wayId, productId, riserNumber, addr);
+                                var nodeFunc = riserElement.Attribute("NodeFunc")?.Value;
+                                if (nodeFunc == null || !byte.TryParse(nodeFunc, out byte func)) continue;
+                                var key = new RiserKey(overpassId, wayId, productId, riserNumber, addr, func);
                                 var riser = new Riser() { Key = key };
                                 riserKeys.Add(key);
                                 // загрузка объектов стояков
@@ -154,11 +156,10 @@ namespace NalivARM10
                                     {
                                         var key = queue.Dequeue();
                                         list.Add(key);
-                                        var func = 3;
                                         var address = 0;
                                         var datacount = 61;
 
-                                        var sendBytes = EncodeData((byte)key.NodeAddr, (byte)func,
+                                        var sendBytes = EncodeData((byte)key.NodeAddr, key.Func,
                                                                    (byte)(address >> 8), (byte)(address & 0xff),
                                                                    (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
                                         var buff = new List<byte>(sendBytes);
@@ -332,7 +333,9 @@ namespace NalivARM10
                     if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
                     var nodeAddr = riserElement.Attribute("NodeAddr")?.Value;
                     if (nodeAddr == null || !uint.TryParse(nodeAddr, out uint addr)) continue;
-                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber, addr));
+                    var nodeFunc = riserElement.Attribute("NodeFunc")?.Value;
+                    if (nodeFunc == null || !byte.TryParse(nodeFunc, out byte func)) continue;
+                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber, addr, func));
                     if (Data.Risers.TryGetValue(pan.RiserKey, out Riser riser))
                         pan.UpdateData(riser.Registers);
                     pan.IsFocused += Pan_IsFocused;
