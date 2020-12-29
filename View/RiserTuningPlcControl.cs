@@ -65,49 +65,13 @@ namespace NalivARM10
             lbHR14_6.Text = (hregs[0x14] & 0x0040) > 0 ? "Запрещен" : "Разрешен";
             lbHR14_7.Text = (hregs[0x14] & 0x0080) > 0 ? "Включена" : "Отключена";
 
-            var enabled = true; // Data.UserLevel >= UserLevel.Oper && !remoted;
+            var enabled = true;
             btnCopy.Enabled = enabled;
             btnEEPROM.Enabled = enabled;
             btnRestore.Enabled = enabled;
             btnSave.Enabled = enabled;
             btnCopyFromStorage.Visible = _histregs.Length == 25;        
         }
-
-        /*
-	    public void UpdateData(int addr, int regcount, ushort[] hregs)
-        {
-			if (addr == 0x1A && regcount == 4)
-			{
-				lbHR1A.Text = hregs[0].ToString("0");
-				lbHR1B.Text = hregs[1].ToString("0");
-				lbHR1C.Text = hregs[2].ToString("0");
-				lbHR1D.Text = hregs[3].ToString("0");
-			}
-			else
-			if (addr == 0x19 && regcount == 1)
-			{
-				lbHR19.Text = hregs[0].ToString("0");
-			}
-			else
-			if (addr == 0x39 && regcount == 1)
-			{
-				lbHR39.Text = hregs[0].ToString("0");
-			}
-			else
-			if (addr == 0x14 && regcount == 1)
-			{
-				lbHR14_2.Text = (hregs[0] & 0x0004) > 0 ? "Да" : "Нет";
-				lbHR14_3.Text = (hregs[0] & 0x0008) > 0 ? "Разрешена" : "Запрещена";
-				lbHR14_6.Text = (hregs[0] & 0x0040) > 0 ? "Запрещен" : "Разрешен";
-				lbHR14_7.Text = (hregs[0] & 0x0080) > 0 ? "Включена" : "Отключена";
-			}
-			btnCopy.Enabled = true;
-			btnEEPROM.Enabled = true;
-			btnRestore.Enabled = true;
-			btnSave.Enabled = true;
-       		btnCopyFromStorage.Visible = _histregs.Length == 25;
-        }
-		*/
 
         void BtnCopyFromStorageClick(object sender, EventArgs e)
 		{
@@ -139,17 +103,6 @@ namespace NalivARM10
 			btnRestore.Enabled = false;
 			btnSave.Enabled = false;
         }
-		
-/*
-		void TimerFetchTick(object sender, EventArgs e)
-		{
-			if (OnFetch == null) return;
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x1A, 4);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x39, 1);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x19, 1);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x14, 1);
-		}
-*/
 		
 		void BtnCopyClick(object sender, EventArgs e)
 		{

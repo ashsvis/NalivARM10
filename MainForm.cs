@@ -42,8 +42,6 @@ namespace NalivARM10
             tvRails.Nodes.Add(root);
             var fetchers = new Dictionary<BackgroundWorker, Tuning>();
 
-            //var npp = 1;
-
             foreach (XElement overpass in xdoc.Element("Configuration").Elements("Overpass"))
             {
                 var overpassId = overpass.Attribute("Id")?.Value;

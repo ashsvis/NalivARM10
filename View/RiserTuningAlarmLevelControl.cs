@@ -66,48 +66,13 @@ namespace NalivARM10
 
             lbHR25.Text = (hregs[0x25] * 0.001).ToString("0.000");
 
-            var enabled = true; // Data.UserLevel >= UserLevel.Oper && !remoted;
+            var enabled = true;
             btnCopy.Enabled = enabled;
             btnEEPROM.Enabled = enabled;
             btnRestore.Enabled = enabled;
             btnSave.Enabled = enabled;
             btnCopyFromStorage.Visible = _histregs.Length == 25;
         }
-
-        /*
-	    public void UpdateData(int addr, int regcount, ushort[] hregs)
-        {
-			if (addr == 0x2C && regcount == 4)
-			{
-				lbHR2C.Text = hregs[0].ToString("0");
-				lbHR2D.Text = hregs[1].ToString("0");
-				lbHR2E.Text = hregs[2].ToString("0");
-				lbHR2F.Text = hregs[3].ToString("0");
-			}
-			else
-			if (addr == 0x20 && regcount == 2)
-			{
-				lbHR20.Text = hregs[0].ToString("0");
-				lbHR21.Text = hregs[1].ToString("0");
-			}
-			else
-			if (addr == 0x14 && regcount == 1)
-			{
-				lbHR14_8.Text = (hregs[0] & 0x0100) > 0 ? "Включена" : "Отключена";
-				lbHR14_9.Text = (hregs[0] & 0x0200) > 0 ? "Включена" : "Отключена";
-			}
-			else
-			if (addr == 0x25 && regcount == 1)
-			{
-				lbHR25.Text = (hregs[0] * 0.001).ToString("0.000");
-			}
-			btnCopy.Enabled = true;
-			btnEEPROM.Enabled = true;
-			btnRestore.Enabled = true;
-			btnSave.Enabled = true;
-       		btnCopyFromStorage.Visible = _histregs.Length == 25;
-        }
-		*/
 
 		void BtnCopyFromStorageClick(object sender, EventArgs e)
 		{
@@ -137,17 +102,6 @@ namespace NalivARM10
 			btnRestore.Enabled = false;
 			btnSave.Enabled = false;
         }
-		
-/*
-		void TimerFetchTick(object sender, EventArgs e)
-		{
-			if (OnFetch == null) return;
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x2C, 4);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x20, 2);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x25, 1);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x14, 1);
-		}
-*/
 		
 		void BtnCopyClick(object sender, EventArgs e)
 		{

@@ -57,89 +57,11 @@ namespace NalivARM10
             lbHR3B.Text = GetHRegVector(hregs[0x3B], 8, 8) + @"." + GetHRegVector(hregs[0x3B], 0, 8);
             lbHR3C.Text = hregs[0x3C].ToString("0");
 
-            var enabled = true; // Data.UserLevel >= UserLevel.Oper && !remoted;
+            var enabled = true;
             btnCopy.Enabled = enabled;
             btnSave.Enabled = enabled;
             btnCopyFromStorage.Visible = _histregs.Length == 25;
         }
-
-        /*
-	    public void UpdateData(int addr, int regcount, ushort[] hregs)
-        {
-			if (addr == 0x37 && regcount == 6)
-			{
-				lbAddress.Text = GetHRegVector(hregs[0], 8, 8).ToString("0");
-				var baud = GetHRegVector(hregs[0], 0, 4);
-				switch (baud)
-				{
-					case 0:
-						lbBaudRate.Text = @"1200";
-						break;
-					case 1:
-						lbBaudRate.Text = @"2400";
-						break;
-					case 2:
-						lbBaudRate.Text = @"4800";
-						break;
-					case 3:
-						lbBaudRate.Text = @"9600";
-						break;
-					case 4:
-						lbBaudRate.Text = @"14400";
-						break;
-					case 5:
-						lbBaudRate.Text = @"19200";
-						break;
-					case 6:
-						lbBaudRate.Text = @"28800";
-						break;
-					case 7:
-						lbBaudRate.Text = @"38400";
-						break;
-					case 8:
-						lbBaudRate.Text = @"57600";
-						break;
-					case 9:
-						lbBaudRate.Text = @"76800";
-						break;
-					case 10:
-						lbBaudRate.Text = @"115200";
-						break;
-					case 11:
-						lbBaudRate.Text = @"230400";
-						break;
-					default:
-						lbBaudRate.Text = @"??????";
-						break;
-				}
-				var parity = GetHRegVector(hregs[0], 4, 2);
-				switch (parity)
-				{
-					case 0:
-						lbParity.Text = @"нет";
-						break;
-					case 1:
-						lbParity.Text = @"нечет";
-						break;
-					case 2:
-						lbParity.Text = @"чет";
-						break;
-					default:
-						lbParity.Text = @"??????";
-						break;
-				}
-				lbHR38.Text = hregs[1].ToString("0");
-				var frame = (hregs[0] & 0x0080) > 0;
-				lbModbus.Text = frame ? "RTU" : "ASCII";
-				lbHR3A.Text = GetHRegVector(hregs[3], 8, 8) + @"." + GetHRegVector(hregs[3], 0, 8);
-				lbHR3B.Text = GetHRegVector(hregs[4], 8, 8) + @"." + GetHRegVector(hregs[4], 0, 8);
-				lbHR3C.Text = hregs[5].ToString("0");
-			}
-			btnCopy.Enabled = true;
-			btnSave.Enabled = true;
-       		btnCopyFromStorage.Visible = _histregs.Length == 25;
-        }
-        */
 
 		void BtnCopyFromStorageClick(object sender, EventArgs e)
 		{
@@ -203,7 +125,7 @@ namespace NalivARM10
 					cbParity.Text = @"??????";
 					break;
 			}
-			edHR38.Text = _hr38.ToString("0");	// изм. 06.06.17
+			edHR38.Text = _hr38.ToString("0");
 		}
 
         public void UpdateTimeout()
@@ -219,14 +141,6 @@ namespace NalivARM10
 			btnCopy.Enabled = false;
 			btnSave.Enabled = false;
         }
-		
-/*
-		void TimerFetchTick(object sender, EventArgs e)
-		{
-			if (OnFetch == null) return;
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x37, 6);
-		}
-*/
 		
 		void BtnCopyClick(object sender, EventArgs e)
 		{

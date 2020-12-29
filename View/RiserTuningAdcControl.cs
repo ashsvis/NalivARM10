@@ -58,7 +58,7 @@ namespace NalivARM10
             lbHR14_0.Text = (hregs[0x14] & 0x0001) > 0 ? "Включен" : "Отключен";
             lbHR14_4.Text = (hregs[0x14] & 0x0010) > 0 ? "Включен" : "Отключен";
 
-            var enabled = true; // Data.UserLevel >= UserLevel.Oper && !remoted;
+            var enabled = true;
             btnCopyADC0.Enabled = enabled;
             btnEEPROMADC0.Enabled = enabled;
             btnRestoreADC0.Enabled = enabled;
@@ -73,45 +73,6 @@ namespace NalivARM10
             btnSaveHR2B.Enabled = enabled;
             btnCopyFromStorage.Visible = _histregs.Length == 25;
         }
-
-        /*
-	    public void UpdateData(int addr, int regcount, ushort[] hregs)
-        {
-			if (addr == 0x22 && regcount == 10)
-			{
-				lbHR22.Text = @"0x" + hregs[0].ToString("X4");
-				lbHR23.Text = @"0x" + hregs[1].ToString("X4");
-				lbHR24.Text = (hregs[2] * 0.001).ToString("0.000");
-				lbHR25.Text = (hregs[3] * 0.001).ToString("0.000");
-				lbHR26.Text = hregs[4].ToString("0");
-				lbHR27.Text = hregs[5].ToString("0");
-				lbHR28.Text = @"0x" + hregs[6].ToString("X4");
-				lbHR29.Text = @"0x" + hregs[7].ToString("X4");
-				lbHR2A.Text = @"0x" + hregs[8].ToString("X4");
-				lbHR2B.Text = @"0x" + hregs[9].ToString("X4");
-			}
-			else
-			if (addr == 0x14 && regcount == 1)
-			{
-				lbHR14_0.Text = (hregs[0] & 0x0001) > 0 ? "Включен" : "Отключен";
-				lbHR14_4.Text = (hregs[0] & 0x0010) > 0 ? "Включен" : "Отключен";
-			}
-	        var enabled = Data.UserLevel >= UserLevel.Oper;
-            btnCopyADC0.Enabled = enabled;
-            btnEEPROMADC0.Enabled = enabled;
-            btnRestoreADC0.Enabled = enabled;
-            btnSaveADC0.Enabled = enabled;
-            btnCopyADC1.Enabled = enabled;
-            btnEEPROMADC1.Enabled = enabled;
-            btnRestoreADC1.Enabled = enabled;
-            btnSaveADC1.Enabled = enabled;
-            btnSaveHR28.Enabled = enabled;
-            btnSaveHR29.Enabled = enabled;
-            btnSaveHR2A.Enabled = enabled;
-            btnSaveHR2B.Enabled = enabled;
-       		btnCopyFromStorage.Visible = _histregs.Length == 25;
-        }
-		*/
 
         void BtnCopyFromStorageClick(object sender, EventArgs e)
 		{
@@ -148,15 +109,6 @@ namespace NalivARM10
 			btnSaveHR2A.Enabled = false;
 			btnSaveHR2B.Enabled = false;
         }
-		
-/*
-		void TimerFetchTick(object sender, EventArgs e)
-		{
-			if (OnFetch == null) return;
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x22, 10);
-			OnFetch(IpAddress, IpPort, NodeAddr, 0x14, 1);
-		}
-*/
 		
         private static void SetHRegFlag(ref ushort hreg, int bit, bool value)
         {
