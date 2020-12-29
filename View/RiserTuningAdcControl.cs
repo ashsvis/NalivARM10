@@ -1,4 +1,5 @@
-﻿using NalivARM10.View;
+﻿using NalivARM10.Model;
+using NalivARM10.View;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -19,6 +20,8 @@ namespace NalivARM10
         
         public event WriteData OnWrite;
 
+		private RiserKey riserKey;
+
 		private ushort _hr14;
 		private ushort _hr26;
 		private ushort _hr27;
@@ -37,9 +40,11 @@ namespace NalivARM10
         	}
         }
 
-        public void UpdateData(ushort[] hregs)
+        public void UpdateData(RiserKey riserKey, ushort[] hregs)
 	    {
-	        if (hregs == null || hregs.Length != 61)
+			this.riserKey = riserKey;
+
+			if (hregs == null || hregs.Length != 61)
 	        {
 	            UpdateTimeout();
                 return;
@@ -133,49 +138,49 @@ namespace NalivARM10
 		void BtnSaveHr28Click(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-            OnWrite(0x09, 1, new ushort[] { 9 });
+            OnWrite(riserKey, 0x09, 1, new ushort[] { 9 });
 		}
 		
 		void BtnSaveHr29Click(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 13 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 13 });
         }
 		
 		void BtnSaveHr2AClick(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 21 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 21 });
         }
 		
 		void BtnSaveHr2BClick(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 25 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 25 });
         }
 		
 		void BtnRestoreAdc0Click(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 19 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 19 });
         }
 		
 		void BtnEepromadc0Click(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 18 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 18 });
         }
 		
 		void BtnRestoreAdc1Click(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 31 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 31 });
         }
 		
 		void BtnEepromadc1Click(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 30 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 30 });
         }
 		
 		void BtnSaveAdc0Click(object sender, EventArgs e)
@@ -191,7 +196,7 @@ namespace NalivARM10
 				ushort flags = 0;
 				SetHRegFlag(ref flags, 0, cbHR14_0.Text == @"Включен");
 				hregs[2] = flags;
-                OnWrite(0x09, 3, hregs, PrepareForChangeLogChannel0());
+                OnWrite(riserKey, 0x09, 3, hregs, PrepareForChangeLogChannel0());
             }
 			else
                 MessageBox.Show(this, @"Не все данные заполнены во входных данных!", 
@@ -222,7 +227,7 @@ namespace NalivARM10
 				ushort flags = 0;
 				SetHRegFlag(ref flags, 4, cbHR14_4.Text == @"Включен");
 				hregs[2] = flags;
-                OnWrite(0x09, 3, hregs, PrepareForChangeLogChannel1());
+                OnWrite(riserKey, 0x09, 3, hregs, PrepareForChangeLogChannel1());
             }
 			else
                 MessageBox.Show(this, @"Не все данные заполнены во входных данных!", 

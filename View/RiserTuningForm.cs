@@ -31,9 +31,21 @@ namespace NalivARM10.View
         /// <param name="regcount"></param>
         /// <param name="hregs"></param>
         /// <param name="changelogdata"></param>
-        private void RiserTuningLink_OnWrite(int address, int regcount, ushort[] hregs, string[] changelogdata = null)
+        private void RiserTuningLink_OnWrite(RiserKey riserKey, int address, int regcount, ushort[] hregs, string[] changelogdata = null)
         {
-            //TODO
+            if (!Data.Segments.TryGetValue(riserKey.SegmentId, out Channel channel)) return;
+            channel.Open();
+            if (channel.IsOpen)
+            {
+                try
+                {
+                    //TODO: channel.Write(...)
+                }
+                finally
+                {
+                    channel.Close();
+                }
+            }
         }
 
         public RiserKey RiserKey { get; set; }
@@ -59,11 +71,11 @@ namespace NalivARM10.View
             if (Data.Risers.TryGetValue(RiserKey, out Riser riser))
             {
                 Text = $"Стояк №{riser.Key.Number}";
-                riserTuningLink.UpdateData(riser.Registers);
-                riserTuningPlc.UpdateData(riser.Registers);
-                riserTuningAdc.UpdateData(riser.Registers);
-                riserTuningAlarmLevel.UpdateData(riser.Registers);
-                riserTuningAnalogLevel.UpdateData(riser.Registers);
+                riserTuningLink.UpdateData(RiserKey, riser.Registers);
+                riserTuningPlc.UpdateData(RiserKey, riser.Registers);
+                riserTuningAdc.UpdateData(RiserKey, riser.Registers);
+                riserTuningAlarmLevel.UpdateData(RiserKey, riser.Registers);
+                riserTuningAnalogLevel.UpdateData(RiserKey, riser.Registers);
             }
         }
 

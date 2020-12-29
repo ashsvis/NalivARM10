@@ -1,4 +1,5 @@
-﻿using NalivARM10.View;
+﻿using NalivARM10.Model;
+using NalivARM10.View;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -19,7 +20,9 @@ namespace NalivARM10
         
         public event WriteData OnWrite;
 
-        private ushort _hr14;
+		private RiserKey riserKey;
+
+		private ushort _hr14;
 		private ushort _hr19;
 		private ushort _hr1A;
 		private ushort _hr1B;
@@ -43,9 +46,11 @@ namespace NalivARM10
         	}
         }
 
-        public void UpdateData(ushort[] hregs)
+        public void UpdateData(RiserKey riserKey, ushort[] hregs)
 	    {
-	        if (hregs == null || hregs.Length != 61)
+			this.riserKey = riserKey;
+
+			if (hregs == null || hregs.Length != 61)
 	        {
 	            UpdateTimeout();
 	            return;
@@ -120,13 +125,13 @@ namespace NalivARM10
 		void BtnRestoreClick(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 35 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 35 });
         }
 		
 		void BtnEepromClick(object sender, EventArgs e)
 		{
 			if (OnWrite == null) return;
-			OnWrite(0x09, 1, new ushort[] { 34 });
+			OnWrite(riserKey, 0x09, 1, new ushort[] { 34 });
         }
 		
         private static void SetHRegFlag(ref ushort hreg, int bit, bool value)
@@ -163,7 +168,7 @@ namespace NalivARM10
 				SetHRegFlag(ref flags, 6, cbHR14_6.Text == @"Запрещен");
 				SetHRegFlag(ref flags, 7, cbHR14_7.Text == @"Включена");
 				hregs[6] = flags;
-                OnWrite(0x09, 7, hregs, PrepareForChangeLog());
+                OnWrite(riserKey, 0x09, 7, hregs, PrepareForChangeLog());
             }
 			else
                 MessageBox.Show(this, @"Не все данные заполнены во входных данных!", 

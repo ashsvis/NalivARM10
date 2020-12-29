@@ -69,7 +69,11 @@ namespace NalivARM10
                             if (linkType == null) continue;
                             var serial = segment.Attribute("Serial")?.Value;
                             var ethernet = segment.Attribute("Ethernet")?.Value;
-                            productNode.Segments.Add(segment);
+                            var segmentId = Guid.NewGuid();
+                            Data.Segments.TryAdd(segmentId, new SerialChannel(serial));
+                            
+                            productNode.Segments.Add(segment, segmentId);
+
                             var riserKeys = new List<RiserKey>();
                             foreach (XElement riserElement in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
                             {
@@ -79,7 +83,7 @@ namespace NalivARM10
                                 if (nodeAddr == null || !byte.TryParse(nodeAddr, out byte addr)) continue;
                                 var nodeFunc = riserElement.Attribute("NodeFunc")?.Value;
                                 if (nodeFunc == null || !byte.TryParse(nodeFunc, out byte func)) continue;
-                                var key = new RiserKey(overpassId, wayId, productId, riserNumber, addr, func);
+                                var key = new RiserKey(overpassId, wayId, productId, riserNumber, segmentId, addr, func);
                                 var riser = new Riser() { Key = key };
                                 riserKeys.Add(key);
                                 // загрузка объектов стояков
@@ -92,11 +96,11 @@ namespace NalivARM10
                             {
                                 case "Ethernet":
                                     fetcher.DoWork += EthernetFetcher_DoWork;
-                                    fetchers.Add(fetcher, new EthernetTuning(ethernet) { RiserKeys = riserKeys });
+                                    fetchers.Add(fetcher, new EthernetTuning(ethernet) { SegmentId = segmentId, RiserKeys = riserKeys });
                                     break;
                                 case "Serial":
                                     fetcher.DoWork += SerialFetcher_DoWork;
-                                    fetchers.Add(fetcher, new SerialTuning(serial) { RiserKeys = riserKeys });
+                                    fetchers.Add(fetcher, new SerialTuning(serial) { SegmentId = segmentId, RiserKeys = riserKeys });
                                     break;
                             }
 
@@ -121,108 +125,90 @@ namespace NalivARM10
             var worker = (BackgroundWorker)sender;
             if (!(e.Argument is SerialTuning pars)) return;
             var queue = new Queue<RiserKey>(pars.RiserKeys);
-            using (var port = new SerialPort())
+            var lastsecond = DateTime.Now.Second;
+            while (!worker.CancellationPending)
             {
-                port.PortName = pars.PortName;
-                port.BaudRate = pars.BaudRate;
-                port.Parity = pars.Parity;
-                port.StopBits = StopBits.Two;
+                Thread.Sleep(1);
+                var dt = DateTime.Now;
+                if (lastsecond == dt.Second) continue;
+                lastsecond = dt.Second;
+                // прошла секунда
                 try
                 {
-                    port.WriteTimeout = 5000;
-                    port.ReadTimeout = 5000;
-                    port.Open();
-                    if (port.IsOpen)
+                    var list = new List<RiserKey>();
+                    while (queue.Count > 0)
                     {
-                        worker.ReportProgress(0, $"{port.PortName} открыт");
-                        try
+                        var key = queue.Dequeue();
+                        list.Add(key);
+                        var address = 0;
+                        var datacount = 61;
+
+                        var sendBytes = EncodeData((byte)key.NodeAddr, key.Func,
+                                                   (byte)(address >> 8), (byte)(address & 0xff),
+                                                   (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
+                        var buff = new List<byte>(sendBytes);
+                        var crc = BitConverter.GetBytes(Crc(buff.ToArray(), buff.Count - 2));
+                        sendBytes[sendBytes.Length - 2] = crc[0];
+                        sendBytes[sendBytes.Length - 1] = crc[1];
+
+                        var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
+
+                        if (!Data.Segments.TryGetValue(key.SegmentId, out Channel channel)) continue;
+                        channel.Open();
+                        if (channel.IsOpen)
                         {
-                            var lastsecond = DateTime.Now.Second;
-                            while (!worker.CancellationPending)
+                            try
                             {
-                                Thread.Sleep(1);
-                                var dt = DateTime.Now;
-                                if (lastsecond == dt.Second) continue;
-                                lastsecond = dt.Second;
-                                // прошла секунда
-                                try
+                                channel.Write(sendBytes, 0, sendBytes.Length);
+                                Thread.Sleep(200);
+                                var bytesToRead = channel.BytesToRead;
+                                if (bytesToRead == len)
                                 {
-                                    port.DiscardInBuffer();
-                                    port.DiscardOutBuffer();
-                                    var list = new List<RiserKey>();
-                                    while (queue.Count > 0)
+                                    buff.Clear();
+                                    while (len-- > 0)
+                                        buff.Add((byte)channel.ReadByte());
+                                    // конец приёма блока данных
+                                    var crcCalc = Crc(buff.ToArray(), buff.Count - 2);
+                                    var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
+                                    if (crcCalc == crcBuff)
                                     {
-                                        var key = queue.Dequeue();
-                                        list.Add(key);
-                                        var address = 0;
-                                        var datacount = 61;
-
-                                        var sendBytes = EncodeData((byte)key.NodeAddr, key.Func,
-                                                                   (byte)(address >> 8), (byte)(address & 0xff),
-                                                                   (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
-                                        var buff = new List<byte>(sendBytes);
-                                        var crc = BitConverter.GetBytes(Crc(buff.ToArray(), buff.Count - 2));
-                                        sendBytes[sendBytes.Length - 2] = crc[0];
-                                        sendBytes[sendBytes.Length - 1] = crc[1];
-
-                                        var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
-                                        port.Write(sendBytes, 0, sendBytes.Length);
-                                        Thread.Sleep(200);
-                                        var bytesToRead = port.BytesToRead;
-                                        if (bytesToRead == len)
+                                        // данные получены правильно
+                                        var regcount = buff[2] / 2;
+                                        var fetchvals = new ushort[regcount];
+                                        var n = 3;
+                                        for (var i = 0; i < regcount; i++)
                                         {
-                                            buff.Clear();
-                                            while (len-- > 0)
-                                                buff.Add((byte)port.ReadByte());
-                                            // конец приёма блока данных
-                                            var crcCalc = Crc(buff.ToArray(), buff.Count - 2);
-                                            var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
-                                            if (crcCalc == crcBuff)
-                                            {
-                                                // данные получены правильно
-                                                var regcount = buff[2] / 2;
-                                                var fetchvals = new ushort[regcount];
-                                                var n = 3;
-                                                for (var i = 0; i < regcount; i++)
-                                                {
-                                                    var raw = new byte[2];
-                                                    raw[0] = buff[n + 1];
-                                                    raw[1] = buff[n];
-                                                    fetchvals[i] = BitConverter.ToUInt16(raw, 0);
-                                                    n += 2;
-                                                }
-                                                //--------------------
-                                                if (Data.Risers.TryGetValue(key, out Riser riser))
-                                                    riser.Update(fetchvals);
-                                            }
-                                            else
-                                            {
-                                                // ошибка контрольной суммы
-                                                if (Data.Risers.TryGetValue(key, out Riser riser))
-                                                    riser.Update(new ushort[] { });
-                                            }
+                                            var raw = new byte[2];
+                                            raw[0] = buff[n + 1];
+                                            raw[1] = buff[n];
+                                            fetchvals[i] = BitConverter.ToUInt16(raw, 0);
+                                            n += 2;
                                         }
-                                        else
-                                        {
-                                            if (Data.Risers.TryGetValue(key, out Riser riser))
-                                                riser.Update(new ushort[] { });
-                                        }
+                                        //--------------------
+                                        if (Data.Risers.TryGetValue(key, out Riser riser))
+                                            riser.Update(fetchvals);
                                     }
-                                    foreach (var key in list)
-                                        queue.Enqueue(key);
+                                    else
+                                    {
+                                        // ошибка контрольной суммы
+                                        if (Data.Risers.TryGetValue(key, out Riser riser))
+                                            riser.Update(new ushort[] { });
+                                    }
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    worker.ReportProgress(0, ex.Message);
+                                    if (Data.Risers.TryGetValue(key, out Riser riser))
+                                        riser.Update(new ushort[] { });
                                 }
                             }
-
-                        }
-                        finally
-                        {
-                            port.Close();
+                            finally
+                            {
+                                channel.Close();
+                            }
                         }
                     }
+                    foreach (var key in list)
+                        queue.Enqueue(key);
                 }
                 catch (Exception ex)
                 {
@@ -325,7 +311,7 @@ namespace NalivARM10
                 var productId = productNode.ProductId;
                 var wayId = ((WayTreeNode)productNode.Parent).WayId;
                 var overpassId = ((OverpassTreeNode)productNode.Parent.Parent).OverpassId;
-                foreach (XElement riserElement in segment.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
+                foreach (var riserElement in segment.Key.Elements("Riser").OrderBy(item => int.Parse(item.Attribute("Number")?.Value)))
                 {
                     var number = riserElement.Attribute("Number")?.Value;
                     if (number == null || !uint.TryParse(number, out uint riserNumber)) continue;
@@ -333,7 +319,7 @@ namespace NalivARM10
                     if (nodeAddr == null || !uint.TryParse(nodeAddr, out uint addr)) continue;
                     var nodeFunc = riserElement.Attribute("NodeFunc")?.Value;
                     if (nodeFunc == null || !byte.TryParse(nodeFunc, out byte func)) continue;
-                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber, addr, func));
+                    var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber, segment.Value, addr, func));
                     if (Data.Risers.TryGetValue(pan.RiserKey, out Riser riser))
                         pan.UpdateData(riser.Registers);
                     pan.IsFocused += Pan_IsFocused;

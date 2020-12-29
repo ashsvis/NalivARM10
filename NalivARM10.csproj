@@ -53,6 +53,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Channel.cs" />
     <Compile Include="Model\Data.cs" />
     <Compile Include="Model\ModbusSerialPort.cs">
       <SubType>Component</SubType>
@@ -62,6 +63,7 @@
     </Compile>
     <Compile Include="Model\Riser.cs" />
     <Compile Include="Model\RiserKey.cs" />
+    <Compile Include="Model\SerialChannel.cs" />
     <Compile Include="Model\Tuning.cs" />
     <Compile Include="View\IFetchUpdate.cs" />
     <Compile Include="View\OverpassTreeNode.cs" />

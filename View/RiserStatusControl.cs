@@ -1,4 +1,5 @@
-﻿using NalivARM10.View;
+﻿using NalivARM10.Model;
+using NalivARM10.View;
 using System.Windows.Forms;
 
 namespace NalivARM10
@@ -14,8 +15,12 @@ namespace NalivARM10
 
         public event WriteData OnWrite;
 
-        public void UpdateData(ushort[] hregs)
+        private RiserKey riserKey;
+
+        public void UpdateData(RiserKey riserKey, ushort[] hregs)
         {
+            this.riserKey = riserKey;
+
             if (hregs == null || hregs.Length != 61)
             {
                 UpdateTimeout();

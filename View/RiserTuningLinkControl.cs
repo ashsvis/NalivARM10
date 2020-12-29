@@ -1,4 +1,5 @@
-﻿using NalivARM10.View;
+﻿using NalivARM10.Model;
+using NalivARM10.View;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -14,7 +15,9 @@ namespace NalivARM10
 
         public event WriteData OnWrite;
 
-		private ushort _hr37;
+        private RiserKey riserKey;
+
+        private ushort _hr37;
 		private ushort _hr38;
         private int[] _histregs = new int[] {};
 
@@ -32,9 +35,11 @@ namespace NalivARM10
         	}
         }
 
-        public void UpdateData(ushort[] hregs)
+        public void UpdateData(RiserKey riserKey, ushort[] hregs)
 	    {
-	        if (hregs == null || hregs.Length != 61)
+            this.riserKey = riserKey;
+
+            if (hregs == null || hregs.Length != 61)
 	        {
 	            UpdateTimeout();
 	            return;
@@ -201,7 +206,7 @@ namespace NalivARM10
                 hregs[0] = 38;
                 hregs[1] = (ushort)(baud + parity * 16 + addr * 256 + 128);
                 hregs[2] = hr38;
-                OnWrite(0x09, 3, hregs, PrepareForChangeLog());
+                OnWrite(riserKey, 0x09, 3, hregs, PrepareForChangeLog());
             }
             else
                 MessageBox.Show(this, @"Не все данные заполнены во входных данных!",

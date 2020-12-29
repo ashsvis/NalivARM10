@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -10,7 +11,7 @@ namespace NalivARM10
 
         public string ProductId { get; set; }
 
-        public List<XElement> Segments = new List<XElement>();
+        public Dictionary<XElement, Guid> Segments = new Dictionary<XElement, Guid>();
 
     }
 }

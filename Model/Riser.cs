@@ -1,4 +1,6 @@
-﻿namespace NalivARM10.Model
+﻿using System;
+
+namespace NalivARM10.Model
 {
     public class Riser
     {

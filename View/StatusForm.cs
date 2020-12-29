@@ -27,7 +27,7 @@ namespace NalivARM10
             if (Data.Risers.TryGetValue(RiserKey, out Riser riser))
             {
                 Text = $"Стояк №{riser.Key.Number}";
-                riserStatus.UpdateData(riser.Registers);
+                riserStatus.UpdateData(RiserKey, riser.Registers);
             }
         }
     }
