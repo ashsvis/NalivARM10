@@ -38,22 +38,22 @@ namespace NalivARM10
             // 
             // btnStop
             // 
-            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStop.Location = new System.Drawing.Point(96, 77);
+            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnStop.Location = new System.Drawing.Point(94, 77);
             this.btnStop.Margin = new System.Windows.Forms.Padding(0);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(50, 23);
+            this.btnStop.Size = new System.Drawing.Size(48, 20);
             this.btnStop.TabIndex = 5;
             this.btnStop.Text = "Стоп";
             this.btnStop.UseVisualStyleBackColor = true;
             // 
             // btnStart
             // 
-            this.btnStart.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnStart.Location = new System.Drawing.Point(1, 77);
+            this.btnStart.Font = new System.Drawing.Font("Segoe UI", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnStart.Location = new System.Drawing.Point(5, 77);
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(50, 23);
+            this.btnStart.Size = new System.Drawing.Size(48, 20);
             this.btnStart.TabIndex = 4;
             this.btnStart.Text = "Старт";
             this.btnStart.UseVisualStyleBackColor = true;

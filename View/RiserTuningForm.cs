@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using NalivARM10.Model;
 
@@ -34,16 +36,18 @@ namespace NalivARM10.View
         private void RiserTuningLink_OnWrite(RiserKey riserKey, int address, int regcount, ushort[] hregs, string[] changelogdata = null)
         {
             if (!Data.Segments.TryGetValue(riserKey.SegmentId, out Channel channel)) return;
-            channel.Open();
-            if (channel.IsOpen)
+            if (!channel.IsOpen) return;
+            var sendBytes = Channel.PrepareWriteRequest(riserKey, address, regcount, hregs);
+            var len = 8;
+            var buff = new List<byte>();
+            lock (channel)
             {
-                try
+                channel.Write(sendBytes, 0, sendBytes.Length);
+                Thread.Sleep(500);
+                if (channel.BytesToRead == len)
                 {
-                    //TODO: channel.Write(...)
-                }
-                finally
-                {
-                    channel.Close();
+                    while (len-- > 0)
+                        buff.Add((byte)channel.ReadByte());
                 }
             }
         }

@@ -26,6 +26,8 @@ namespace NalivARM10.Model
 
         public override void Open()
         {
+            if (IsOpen)
+                port.Close();
             port.PortName = PortName;
             port.BaudRate = BaudRate;
             port.Parity = Parity;
@@ -61,6 +63,8 @@ namespace NalivARM10.Model
 
         public override void Write(byte[] sendBytes, int offset, int length)
         {
+            port.DiscardInBuffer();
+            port.DiscardOutBuffer();
             port.Write(sendBytes, offset, length);
         }
 

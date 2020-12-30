@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
-using System.IO.Ports;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -124,51 +123,48 @@ namespace NalivARM10
         {
             var worker = (BackgroundWorker)sender;
             if (!(e.Argument is SerialTuning pars)) return;
-            var queue = new Queue<RiserKey>(pars.RiserKeys);
-            var lastsecond = DateTime.Now.Second;
-            while (!worker.CancellationPending)
+            if (!Data.Segments.TryGetValue(pars.SegmentId, out Channel channel)) return;
+            channel.Open();
+            if (channel.IsOpen)
             {
-                Thread.Sleep(1);
-                var dt = DateTime.Now;
-                if (lastsecond == dt.Second) continue;
-                lastsecond = dt.Second;
-                // прошла секунда
                 try
                 {
-                    var list = new List<RiserKey>();
-                    while (queue.Count > 0)
+                    var queue = new Queue<RiserKey>(pars.RiserKeys);
+                    var lastsecond = DateTime.Now.Second;
+                    while (!worker.CancellationPending)
                     {
-                        var key = queue.Dequeue();
-                        list.Add(key);
-                        var address = 0;
-                        var datacount = 61;
-
-                        var sendBytes = EncodeData((byte)key.NodeAddr, key.Func,
-                                                   (byte)(address >> 8), (byte)(address & 0xff),
-                                                   (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
-                        var buff = new List<byte>(sendBytes);
-                        var crc = BitConverter.GetBytes(Crc(buff.ToArray(), buff.Count - 2));
-                        sendBytes[sendBytes.Length - 2] = crc[0];
-                        sendBytes[sendBytes.Length - 1] = crc[1];
-
-                        var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
-
-                        if (!Data.Segments.TryGetValue(key.SegmentId, out Channel channel)) continue;
-                        channel.Open();
-                        if (channel.IsOpen)
+                        Thread.Sleep(1);
+                        var dt = DateTime.Now;
+                        if (lastsecond == dt.Second) continue;
+                        lastsecond = dt.Second;
+                        // прошла секунда
+                        try
                         {
-                            try
+                            var list = new List<RiserKey>();
+                            while (queue.Count > 0)
                             {
-                                channel.Write(sendBytes, 0, sendBytes.Length);
-                                Thread.Sleep(200);
-                                var bytesToRead = channel.BytesToRead;
-                                if (bytesToRead == len)
+                                var key = queue.Dequeue();
+                                list.Add(key);
+                                var address = 0;
+                                var datacount = 61;
+
+                                var sendBytes = Channel.PrepareFetchRequest(key, address, datacount);
+                                var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
+                                var buff = new List<byte>();
+                                lock (channel)
                                 {
-                                    buff.Clear();
-                                    while (len-- > 0)
-                                        buff.Add((byte)channel.ReadByte());
+                                    channel.Write(sendBytes, 0, sendBytes.Length);
+                                    Thread.Sleep(200);
+                                    if (channel.BytesToRead == len)
+                                    {
+                                        while (len-- > 0)
+                                            buff.Add((byte)channel.ReadByte());
+                                    }
+                                }
+                                if (buff.Count > 2)
+                                {
                                     // конец приёма блока данных
-                                    var crcCalc = Crc(buff.ToArray(), buff.Count - 2);
+                                    var crcCalc = Channel.Crc(buff.ToArray(), buff.Count - 2);
                                     var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
                                     if (crcCalc == crcBuff)
                                     {
@@ -201,47 +197,59 @@ namespace NalivARM10
                                         riser.Update(new ushort[] { });
                                 }
                             }
-                            finally
-                            {
-                                channel.Close();
-                            }
+                            foreach (var key in list)
+                                queue.Enqueue(key);
+                        }
+                        catch (Exception ex)
+                        {
+                            worker.ReportProgress(0, ex.Message);
                         }
                     }
-                    foreach (var key in list)
-                        queue.Enqueue(key);
                 }
-                catch (Exception ex)
+                finally
                 {
-                    worker.ReportProgress(0, ex.Message);
+                    channel.Close();
                 }
             }
         }
 
-        private static byte[] EncodeData(params byte[] list)
-        {
-            var result = new byte[list.Length];
-            for (var i = 0; i < list.Length; i++) result[i] = list[i];
-            return result;
-        }
+        //private static byte[] PrepareRequest(RiserKey key, int address, int datacount)
+        //{
+        //    var sendBytes = EncodeData((byte)key.NodeAddr, key.Func,
+        //                               (byte)(address >> 8), (byte)(address & 0xff),
+        //                               (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
+        //    var buff = new List<byte>(sendBytes);
+        //    var crc = BitConverter.GetBytes(Crc(buff.ToArray(), buff.Count - 2));
+        //    sendBytes[sendBytes.Length - 2] = crc[0];
+        //    sendBytes[sendBytes.Length - 1] = crc[1];
+        //    return sendBytes;
+        //}
 
-        private static ushort Crc(IList<byte> buff, int len)
-        {   // контрольная сумма MODBUS RTU
-            ushort result = 0xFFFF;
-            if (len <= buff.Count)
-            {
-                for (var i = 0; i < len; i++)
-                {
-                    result ^= buff[i];
-                    for (var j = 0; j < 8; j++)
-                    {
-                        var flag = (result & 0x0001) > 0;
-                        result >>= 1;
-                        if (flag) result ^= 0xA001;
-                    }
-                }
-            }
-            return result;
-        }
+        //private static byte[] EncodeData(params byte[] list)
+        //{
+        //    var result = new byte[list.Length];
+        //    for (var i = 0; i < list.Length; i++) result[i] = list[i];
+        //    return result;
+        //}
+
+        //private static ushort Crc(IList<byte> buff, int len)
+        //{   // контрольная сумма MODBUS RTU
+        //    ushort result = 0xFFFF;
+        //    if (len <= buff.Count)
+        //    {
+        //        for (var i = 0; i < len; i++)
+        //        {
+        //            result ^= buff[i];
+        //            for (var j = 0; j < 8; j++)
+        //            {
+        //                var flag = (result & 0x0001) > 0;
+        //                result >>= 1;
+        //                if (flag) result ^= 0xA001;
+        //            }
+        //        }
+        //    }
+        //    return result;
+        //}
 
         /// <summary>
         /// Обработчик для потока данных по TCP соединению
