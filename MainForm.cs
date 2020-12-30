@@ -155,13 +155,14 @@ namespace NalivARM10
                                 {
                                     channel.Write(sendBytes, 0, sendBytes.Length);
                                     Thread.Sleep(200);
-                                    if (channel.BytesToRead == len)
+                                    var bytesToRead = channel.BytesToRead;
+                                    if (bytesToRead == len || bytesToRead == 5)
                                     {
-                                        while (len-- > 0)
+                                        while (bytesToRead-- > 0)
                                             buff.Add((byte)channel.ReadByte());
                                     }
                                 }
-                                if (buff.Count > 2)
+                                if (buff.Count == len)
                                 {
                                     // конец приёма блока данных
                                     var crcCalc = Channel.Crc(buff.ToArray(), buff.Count - 2);

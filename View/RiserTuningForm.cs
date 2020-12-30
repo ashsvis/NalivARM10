@@ -24,6 +24,8 @@ namespace NalivARM10.View
             this.RiserKey = riserKey;
             this.tabNo = tabNo;
             tabControl1.SelectTab(tabNo);
+
+            labMessage.Text = "";
         }
 
         /// <summary>
@@ -38,18 +40,31 @@ namespace NalivARM10.View
             if (!Data.Segments.TryGetValue(riserKey.SegmentId, out Channel channel)) return;
             if (!channel.IsOpen) return;
             var sendBytes = Channel.PrepareWriteRequest(riserKey, address, regcount, hregs);
-            var len = 8;
             var buff = new List<byte>();
             lock (channel)
             {
                 channel.Write(sendBytes, 0, sendBytes.Length);
-                Thread.Sleep(500);
-                if (channel.BytesToRead == len)
+                Thread.Sleep(100);
+                var bytesToRead = channel.BytesToRead;
+                if (bytesToRead == 8 || bytesToRead == 5)
                 {
-                    while (len-- > 0)
+                    while (bytesToRead-- > 0)
                         buff.Add((byte)channel.ReadByte());
                 }
             }
+            if (buff.Count == 8)
+            {
+                labMessage.Text = "Изменение внесено.";
+            }
+            else if (buff.Count == 5)
+            {
+                labMessage.Text = $"Код ошибки: {buff[2]}";
+            }
+            else
+            {
+                labMessage.Text = "Нет ответа.";
+            }
+            timer2.Enabled = true;
         }
 
         public RiserKey RiserKey { get; set; }
@@ -83,5 +98,10 @@ namespace NalivARM10.View
             }
         }
 
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            timer2.Enabled = false;
+            labMessage.Text = "";
+        }
     }
 }

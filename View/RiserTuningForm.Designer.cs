@@ -39,8 +39,10 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.riserTuningAlarmLevel = new NalivARM10.RiserTuningAlarmLevelControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.riserTuningAnalogLevel = new NalivARM10.RiserTuningAnalogLevelControl();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.labMessage = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -62,7 +64,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(475, 510);
+            this.tabControl1.Size = new System.Drawing.Size(475, 509);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -71,7 +73,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(467, 482);
+            this.tabPage1.Size = new System.Drawing.Size(467, 481);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Параметры связи";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -92,7 +94,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(467, 482);
+            this.tabPage2.Size = new System.Drawing.Size(467, 481);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "PLC";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -117,7 +119,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(467, 482);
+            this.tabPage3.Size = new System.Drawing.Size(467, 481);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "ADC";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -141,7 +143,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(467, 482);
+            this.tabPage4.Size = new System.Drawing.Size(467, 481);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Аварийный уровень";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -165,16 +167,10 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(467, 482);
+            this.tabPage5.Size = new System.Drawing.Size(467, 481);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Аналоговый уровень";
             this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // riserTuningAnalogLevel
             // 
@@ -189,11 +185,33 @@
             this.riserTuningAnalogLevel.Size = new System.Drawing.Size(409, 380);
             this.riserTuningAnalogLevel.TabIndex = 0;
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // labMessage
+            // 
+            this.labMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labMessage.AutoSize = true;
+            this.labMessage.Location = new System.Drawing.Point(12, 524);
+            this.labMessage.Name = "labMessage";
+            this.labMessage.Size = new System.Drawing.Size(16, 15);
+            this.labMessage.TabIndex = 1;
+            this.labMessage.Text = "...";
+            // 
+            // timer2
+            // 
+            this.timer2.Interval = 500;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // RiserTuningForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 534);
+            this.ClientSize = new System.Drawing.Size(499, 548);
+            this.Controls.Add(this.labMessage);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -212,6 +230,7 @@
             this.tabPage4.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -229,5 +248,7 @@
         private RiserTuningAdcControl riserTuningAdc;
         private RiserTuningAlarmLevelControl riserTuningAlarmLevel;
         private RiserTuningAnalogLevelControl riserTuningAnalogLevel;
+        private System.Windows.Forms.Label labMessage;
+        private System.Windows.Forms.Timer timer2;
     }
 }
