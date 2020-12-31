@@ -53,7 +53,7 @@ namespace NalivARM10
 
         public void UpdateData(ushort[] hregs)
         {
-            if (hregs == null || hregs.Length != 61)
+            if (hregs == null || hregs.Length < 5) //61
             {
                 linked = false;
                 Invalidate();

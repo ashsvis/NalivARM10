@@ -146,57 +146,12 @@ namespace NalivARM10
                                 var key = queue.Dequeue();
                                 list.Add(key);
                                 var address = 0;
-                                var datacount = 61;
+                                var datacount = 9; // 61;
 
-                                var sendBytes = Channel.PrepareFetchRequest(key, address, datacount);
-                                var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
-                                var buff = new List<byte>();
-                                lock (channel)
-                                {
-                                    channel.Write(sendBytes, 0, sendBytes.Length);
-                                    Thread.Sleep(200);
-                                    var bytesToRead = channel.BytesToRead;
-                                    if (bytesToRead == len || bytesToRead == 5)
-                                    {
-                                        while (bytesToRead-- > 0)
-                                            buff.Add((byte)channel.ReadByte());
-                                    }
-                                }
-                                if (buff.Count == len)
-                                {
-                                    // конец приёма блока данных
-                                    var crcCalc = Channel.Crc(buff.ToArray(), buff.Count - 2);
-                                    var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
-                                    if (crcCalc == crcBuff)
-                                    {
-                                        // данные получены правильно
-                                        var regcount = buff[2] / 2;
-                                        var fetchvals = new ushort[regcount];
-                                        var n = 3;
-                                        for (var i = 0; i < regcount; i++)
-                                        {
-                                            var raw = new byte[2];
-                                            raw[0] = buff[n + 1];
-                                            raw[1] = buff[n];
-                                            fetchvals[i] = BitConverter.ToUInt16(raw, 0);
-                                            n += 2;
-                                        }
-                                        //--------------------
-                                        if (Data.Risers.TryGetValue(key, out Riser riser))
-                                            riser.Update(fetchvals);
-                                    }
-                                    else
-                                    {
-                                        // ошибка контрольной суммы
-                                        if (Data.Risers.TryGetValue(key, out Riser riser))
-                                            riser.Update(new ushort[] { });
-                                    }
-                                }
-                                else
-                                {
-                                    if (Data.Risers.TryGetValue(key, out Riser riser))
-                                        riser.Update(new ushort[] { });
-                                }
+                                var fetchvals = Channel.Fetch(channel, key, address, datacount);
+
+                                if (Data.Risers.TryGetValue(key, out Riser riser))
+                                    riser.Update(fetchvals);
                             }
                             foreach (var key in list)
                                 queue.Enqueue(key);
@@ -214,42 +169,57 @@ namespace NalivARM10
             }
         }
 
-        //private static byte[] PrepareRequest(RiserKey key, int address, int datacount)
+        //private static void Fetch(Channel channel, RiserKey key, int address, int datacount)
         //{
-        //    var sendBytes = EncodeData((byte)key.NodeAddr, key.Func,
-        //                               (byte)(address >> 8), (byte)(address & 0xff),
-        //                               (byte)(datacount >> 8), (byte)(datacount & 0xff), 0, 0);
-        //    var buff = new List<byte>(sendBytes);
-        //    var crc = BitConverter.GetBytes(Crc(buff.ToArray(), buff.Count - 2));
-        //    sendBytes[sendBytes.Length - 2] = crc[0];
-        //    sendBytes[sendBytes.Length - 1] = crc[1];
-        //    return sendBytes;
-        //}
-
-        //private static byte[] EncodeData(params byte[] list)
-        //{
-        //    var result = new byte[list.Length];
-        //    for (var i = 0; i < list.Length; i++) result[i] = list[i];
-        //    return result;
-        //}
-
-        //private static ushort Crc(IList<byte> buff, int len)
-        //{   // контрольная сумма MODBUS RTU
-        //    ushort result = 0xFFFF;
-        //    if (len <= buff.Count)
+        //    var sendBytes = Channel.PrepareFetchRequest(key, address, datacount);
+        //    var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
+        //    var buff = new List<byte>();
+        //    lock (channel)
         //    {
-        //        for (var i = 0; i < len; i++)
+        //        channel.Write(sendBytes, 0, sendBytes.Length);
+        //        Thread.Sleep(200);
+        //        var bytesToRead = channel.BytesToRead;
+        //        if (bytesToRead == len || bytesToRead == 5)
         //        {
-        //            result ^= buff[i];
-        //            for (var j = 0; j < 8; j++)
-        //            {
-        //                var flag = (result & 0x0001) > 0;
-        //                result >>= 1;
-        //                if (flag) result ^= 0xA001;
-        //            }
+        //            while (bytesToRead-- > 0)
+        //                buff.Add((byte)channel.ReadByte());
         //        }
         //    }
-        //    return result;
+        //    if (buff.Count == len)
+        //    {
+        //        // конец приёма блока данных
+        //        var crcCalc = Channel.Crc(buff.ToArray(), buff.Count - 2);
+        //        var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
+        //        if (crcCalc == crcBuff)
+        //        {
+        //            // данные получены правильно
+        //            var regcount = buff[2] / 2;
+        //            var fetchvals = new ushort[regcount];
+        //            var n = 3;
+        //            for (var i = 0; i < regcount; i++)
+        //            {
+        //                var raw = new byte[2];
+        //                raw[0] = buff[n + 1];
+        //                raw[1] = buff[n];
+        //                fetchvals[i] = BitConverter.ToUInt16(raw, 0);
+        //                n += 2;
+        //            }
+        //            //--------------------
+        //            if (Data.Risers.TryGetValue(key, out Riser riser))
+        //                riser.Update(fetchvals);
+        //        }
+        //        else
+        //        {
+        //            // ошибка контрольной суммы
+        //            if (Data.Risers.TryGetValue(key, out Riser riser))
+        //                riser.Update(new ushort[] { });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (Data.Risers.TryGetValue(key, out Riser riser))
+        //            riser.Update(new ushort[] { });
+        //    }
         //}
 
         /// <summary>

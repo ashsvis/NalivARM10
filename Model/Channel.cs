@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace NalivARM10.Model
 {
@@ -85,6 +86,61 @@ namespace NalivARM10.Model
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// Запрос данных
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="key">Ключ стояка</param>
+        /// <param name="address">Начальное смещение</param>
+        /// <param name="regcount">Кол-во регистров</param>
+        /// <returns></returns>
+        public static ushort[] Fetch(Channel channel, RiserKey key, int address, int regcount)
+        {
+            var sendBytes = PrepareFetchRequest(key, address, regcount);
+            var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
+            var buff = new List<byte>();
+            lock (channel)
+            {
+                channel.Write(sendBytes, 0, sendBytes.Length);
+                Thread.Sleep(200);
+                var bytesToRead = channel.BytesToRead;
+                if (bytesToRead == len || bytesToRead == 5)
+                {
+                    while (bytesToRead-- > 0)
+                        buff.Add((byte)channel.ReadByte());
+                }
+            }
+            if (buff.Count == len)
+            {
+                // конец приёма блока данных
+                var crcCalc = Crc(buff.ToArray(), buff.Count - 2);
+                var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
+                if (crcCalc == crcBuff)
+                {
+                    // данные получены правильно
+                    regcount = buff[2] / 2;
+                    var fetchvals = new ushort[regcount];
+                    var n = 3;
+                    for (var i = 0; i < regcount; i++)
+                    {
+                        var raw = new byte[2];
+                        raw[0] = buff[n + 1];
+                        raw[1] = buff[n];
+                        fetchvals[i] = BitConverter.ToUInt16(raw, 0);
+                        n += 2;
+                    }
+                    return fetchvals;
+                }
+                else
+                {
+                    // ошибка контрольной суммы
+                    return new ushort[] { };
+                }
+            }
+            else
+                return new ushort[] { };
         }
 
     }

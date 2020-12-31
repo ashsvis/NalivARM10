@@ -21,7 +21,7 @@ namespace NalivARM10
         {
             this.riserKey = riserKey;
 
-            if (hregs == null || hregs.Length != 61)
+            if (hregs == null || hregs.Length < 6) //61
             {
                 UpdateTimeout();
                 return;

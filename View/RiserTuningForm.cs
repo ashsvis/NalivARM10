@@ -87,15 +87,21 @@ namespace NalivARM10.View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (Data.Risers.TryGetValue(RiserKey, out Riser riser))
-            {
-                Text = $"Стояк №{riser.Key.Number}";
-                riserTuningLink.UpdateData(RiserKey, riser.Registers);
-                riserTuningPlc.UpdateData(RiserKey, riser.Registers);
-                riserTuningAdc.UpdateData(RiserKey, riser.Registers);
-                riserTuningAlarmLevel.UpdateData(RiserKey, riser.Registers);
-                riserTuningAnalogLevel.UpdateData(RiserKey, riser.Registers);
-            }
+            if (!Data.Segments.TryGetValue(RiserKey.SegmentId, out Channel channel)) return;
+            if (!channel.IsOpen) return;
+
+            var fetchvals = Channel.Fetch(channel, RiserKey, 0, 61);
+
+            if (!Data.Risers.TryGetValue(RiserKey, out Riser riser)) return;
+
+            riser.Update(fetchvals);
+
+            Text = $"Стояк №{riser.Key.Number}";
+            riserTuningLink.UpdateData(RiserKey, riser.Registers);
+            riserTuningPlc.UpdateData(RiserKey, riser.Registers);
+            riserTuningAdc.UpdateData(RiserKey, riser.Registers);
+            riserTuningAlarmLevel.UpdateData(RiserKey, riser.Registers);
+            riserTuningAnalogLevel.UpdateData(RiserKey, riser.Registers);
         }
 
         private void timer2_Tick(object sender, EventArgs e)
