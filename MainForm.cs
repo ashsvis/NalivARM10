@@ -224,7 +224,7 @@ namespace NalivARM10
         }
 
         /// <summary>
-        /// Выбор узла в дереве
+        /// Выбор узла в дереве, заполняем страницу стояками
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -246,6 +246,8 @@ namespace NalivARM10
                     var nodeFunc = riserElement.Attribute("NodeFunc")?.Value;
                     if (nodeFunc == null || !byte.TryParse(nodeFunc, out byte func)) continue;
                     var pan = new RiserPanel(new RiserKey(overpassId, wayId, productId, riserNumber, segment.Value, addr, func));
+                    // при двойном клике вызываем форму задания налива
+                    pan.IsDoubleClicked += (p) => ShowTaskDataEditor(p);
                     if (Data.Risers.TryGetValue(pan.RiserKey, out Riser riser))
                         pan.UpdateData(riser.Registers);
                     pan.IsFocused += Pan_IsFocused;
@@ -263,6 +265,11 @@ namespace NalivARM10
             panRisers.ResumeLayout();
         }
 
+        /// <summary>
+        /// Обновление значений взливов и состояний стояков на странице
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
             foreach (var pan in panRisers.Controls.OfType<RiserPanel>())
@@ -388,9 +395,9 @@ namespace NalivARM10
             ShowRiserConfig(4);
         }
 
-        private void ShowTaskDataEditor()
+        private void ShowTaskDataEditor(RiserPanel panel = null)
         {
-            var pan = (RiserPanel)tscbRisersList.SelectedItem;
+            var pan = panel ?? (RiserPanel)tscbRisersList.SelectedItem;
             if (pan == null) return;
             if (!pan.Linked) return;
             // среди открытых форм ищем окно настройки стояка, если его нет, создаём новое

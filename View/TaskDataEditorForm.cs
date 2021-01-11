@@ -35,6 +35,8 @@ namespace NalivARM10
                 tbSetpoint.Text = setpoint.ToString("0");
                 UpdateMinMax(tbSetpoint);
             }
+
+            RiserKey = riserKey;
         }
 
         public RiserKey RiserKey { get; set; }
@@ -263,6 +265,16 @@ namespace NalivARM10
                 btnOk.Enabled = false;
                 errorProvider1.SetError(tbSetpoint, "Недопустимое числовое значение");
             }
+        }
+
+        /// <summary>
+        /// Отмена ввода пользователем
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, System.EventArgs e)
+        {
+            Close();
         }
 
         private void tbFactHeight_TextChanged(object sender, System.EventArgs e)

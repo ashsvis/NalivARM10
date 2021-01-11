@@ -20,7 +20,9 @@ namespace NalivARM10
 
         public bool Linked { get => riserControl1.Linked; }
 
-        public event FocusRiser IsFocused;
+        public event RiserEvent IsFocused;
+
+        public event RiserEvent IsDoubleClicked;
 
         private void RiserPanel_Load(object sender, EventArgs e)
         {
@@ -59,7 +61,12 @@ namespace NalivARM10
         {
             return $"Стояк №{riserControl1.Riser}";
         }
+
+        private void riserControl1_DoubleClick(object sender, EventArgs e)
+        {
+            IsDoubleClicked?.Invoke(this);
+        }
     }
 
-    public delegate void FocusRiser(RiserPanel panel);
+    public delegate void RiserEvent(RiserPanel panel);
 }

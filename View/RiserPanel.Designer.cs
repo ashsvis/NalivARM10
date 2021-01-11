@@ -80,6 +80,7 @@ namespace NalivARM10
             this.riserControl1.Size = new System.Drawing.Size(148, 101);
             this.riserControl1.TabIndex = 0;
             this.riserControl1.Text = "riserControl1";
+            this.riserControl1.DoubleClick += new System.EventHandler(this.riserControl1_DoubleClick);
             // 
             // RiserPanel
             // 
