@@ -213,8 +213,10 @@
             this.ClientSize = new System.Drawing.Size(499, 548);
             this.Controls.Add(this.labMessage);
             this.Controls.Add(this.tabControl1);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::NalivARM10.Properties.Settings.Default, "RiserTuningFormLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Location = global::NalivARM10.Properties.Settings.Default.RiserTuningFormLocation;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "RiserTuningForm";

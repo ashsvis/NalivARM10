@@ -68,6 +68,12 @@
     <Compile Include="Model\RiserKey.cs" />
     <Compile Include="Model\SerialChannel.cs" />
     <Compile Include="Model\Tuning.cs" />
+    <Compile Include="View\TaskDataEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\TaskDataEditorForm.designer.cs">
+      <DependentUpon>TaskDataEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\IFetchUpdate.cs" />
     <Compile Include="View\OverpassTreeNode.cs" />
     <Compile Include="View\ProductTreeNode.cs" />
@@ -155,6 +161,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="View\TaskDataEditorForm.resx">
+      <DependentUpon>TaskDataEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\RiserControl.resx">
       <DependentUpon>RiserControl.cs</DependentUpon>
     </EmbeddedResource>

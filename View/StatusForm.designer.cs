@@ -55,8 +55,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(459, 598);
             this.Controls.Add(this.riserStatus);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::NalivARM10.Properties.Settings.Default, "StatusFormLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Location = global::NalivARM10.Properties.Settings.Default.StatusFormLocation;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "StatusForm";

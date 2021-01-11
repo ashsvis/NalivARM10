@@ -22,5 +22,41 @@ namespace NalivARM10.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point FormTaskDataEditorLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["FormTaskDataEditorLocation"]));
+            }
+            set {
+                this["FormTaskDataEditorLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point RiserTuningFormLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["RiserTuningFormLocation"]));
+            }
+            set {
+                this["RiserTuningFormLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point StatusFormLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["StatusFormLocation"]));
+            }
+            set {
+                this["StatusFormLocation"] = value;
+            }
+        }
     }
 }

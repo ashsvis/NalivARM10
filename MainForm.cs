@@ -387,5 +387,22 @@ namespace NalivARM10
         {
             ShowRiserConfig(4);
         }
+
+        private void ShowTaskDataEditor()
+        {
+            var pan = (RiserPanel)tscbRisersList.SelectedItem;
+            if (pan == null) return;
+            if (!pan.Linked) return;
+            // среди открытых форм ищем окно настройки стояка, если его нет, создаём новое
+            var taskForm = Application.OpenForms.OfType<FormTaskDataEditor>().FirstOrDefault() ?? new FormTaskDataEditor(pan.RiserKey) { Owner = this };
+            taskForm.RiserKey = pan.RiserKey;
+            taskForm.Show();
+            taskForm.BringToFront();
+        }
+
+        private void tsbTask_Click(object sender, EventArgs e)
+        {
+            ShowTaskDataEditor();
+        }
     }
 }

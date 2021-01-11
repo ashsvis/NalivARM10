@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("ПТХН");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("ПТХН");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuMainStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -522,10 +522,10 @@
             this.tvRails.HideSelection = false;
             this.tvRails.Location = new System.Drawing.Point(0, 0);
             this.tvRails.Name = "tvRails";
-            treeNode4.Name = "Node0";
-            treeNode4.Text = "ПТХН";
+            treeNode1.Name = "Node0";
+            treeNode1.Text = "ПТХН";
             this.tvRails.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4});
+            treeNode1});
             this.tvRails.Size = new System.Drawing.Size(171, 259);
             this.tvRails.TabIndex = 0;
             this.tvRails.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvRails_AfterSelect);
@@ -594,6 +594,7 @@
             this.tsbTask.Name = "tsbTask";
             this.tsbTask.Size = new System.Drawing.Size(59, 22);
             this.tsbTask.Text = "Задание";
+            this.tsbTask.Click += new System.EventHandler(this.tsbTask_Click);
             // 
             // tsbClear
             // 

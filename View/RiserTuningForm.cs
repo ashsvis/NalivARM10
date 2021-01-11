@@ -68,6 +68,7 @@ namespace NalivARM10.View
         }
 
         public RiserKey RiserKey { get; set; }
+
         public int TabNo
         {
             get { return tabNo; }

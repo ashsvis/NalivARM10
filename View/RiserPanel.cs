@@ -18,6 +18,8 @@ namespace NalivARM10
 
         public uint Number { get => riserControl1.Riser; }
 
+        public bool Linked { get => riserControl1.Linked; }
+
         public event FocusRiser IsFocused;
 
         private void RiserPanel_Load(object sender, EventArgs e)
