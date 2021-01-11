@@ -87,12 +87,15 @@ namespace NalivARM10.View
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            UpdateInteface();
+        }
+
+        private async void UpdateInteface()
+        {
             if (!Data.Segments.TryGetValue(RiserKey.SegmentId, out Channel channel)) return;
             if (!channel.IsOpen) return;
-
-            var fetchvals = Channel.Fetch(channel, RiserKey, 0, 61);
-
             if (!Data.Risers.TryGetValue(RiserKey, out Riser riser)) return;
+            var fetchvals = await Channel.FetchAsync(channel, RiserKey, 0, 61);
 
             riser.Update(fetchvals);
 

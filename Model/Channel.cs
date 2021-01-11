@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace NalivARM10.Model
 {
@@ -86,6 +87,21 @@ namespace NalivARM10.Model
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// Асинхронный вызов метода запроса данных
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="key"></param>
+        /// <param name="address"></param>
+        /// <param name="regcount"></param>
+        /// <returns></returns>
+        public static Task<ushort[]> FetchAsync(Channel channel, RiserKey key, int address, int regcount)
+        {
+            var task = new Task<ushort[]>(() => Fetch(channel, key, address, regcount));
+            task.Start();
+            return task;
         }
 
         /// <summary>
