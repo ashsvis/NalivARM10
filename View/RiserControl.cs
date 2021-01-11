@@ -48,12 +48,14 @@ namespace NalivARM10
         public RiserKey Key { get; set; }
 
         public uint Riser { get => riser; set => riser = value; }
+
+        public bool Linked { get => linked; }
        
         public bool Selected { get; set; }
 
         public void UpdateData(ushort[] hregs)
         {
-            if (hregs == null || hregs.Length < 5) //61
+            if (hregs == null || hregs.Length < 5) // max 61
             {
                 linked = false;
                 Invalidate();

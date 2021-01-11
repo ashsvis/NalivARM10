@@ -27,8 +27,14 @@ namespace NalivARM10
         public void UpdateData(ushort[] hregs)
         {
             riserControl1.UpdateData(hregs);
+            chboxSelected.Enabled = btnStart.Enabled = btnStop.Enabled = riserControl1.Linked;
         }
 
+        /// <summary>
+        /// Получение фокуса
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RiserPanel_Enter(object sender, EventArgs e)
         {
             riserControl1.Selected = true;
@@ -36,6 +42,11 @@ namespace NalivARM10
             IsFocused?.Invoke(this);
         }
 
+        /// <summary>
+        /// Потеря фокуса
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RiserPanel_Leave(object sender, EventArgs e)
         {
             riserControl1.Selected = false;

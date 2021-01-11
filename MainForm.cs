@@ -146,7 +146,7 @@ namespace NalivARM10
                                 var key = queue.Dequeue();
                                 list.Add(key);
                                 var address = 0;
-                                var datacount = 9; // 61;
+                                var datacount = 9; // max 61;
 
                                 var fetchvals = Channel.Fetch(channel, key, address, datacount);
 
@@ -168,59 +168,6 @@ namespace NalivARM10
                 }
             }
         }
-
-        //private static void Fetch(Channel channel, RiserKey key, int address, int datacount)
-        //{
-        //    var sendBytes = Channel.PrepareFetchRequest(key, address, datacount);
-        //    var len = (sendBytes[4] * 256 + sendBytes[5]) * 2 + 5;
-        //    var buff = new List<byte>();
-        //    lock (channel)
-        //    {
-        //        channel.Write(sendBytes, 0, sendBytes.Length);
-        //        Thread.Sleep(200);
-        //        var bytesToRead = channel.BytesToRead;
-        //        if (bytesToRead == len || bytesToRead == 5)
-        //        {
-        //            while (bytesToRead-- > 0)
-        //                buff.Add((byte)channel.ReadByte());
-        //        }
-        //    }
-        //    if (buff.Count == len)
-        //    {
-        //        // конец приёма блока данных
-        //        var crcCalc = Channel.Crc(buff.ToArray(), buff.Count - 2);
-        //        var crcBuff = BitConverter.ToUInt16(buff.ToArray(), buff.Count - 2);
-        //        if (crcCalc == crcBuff)
-        //        {
-        //            // данные получены правильно
-        //            var regcount = buff[2] / 2;
-        //            var fetchvals = new ushort[regcount];
-        //            var n = 3;
-        //            for (var i = 0; i < regcount; i++)
-        //            {
-        //                var raw = new byte[2];
-        //                raw[0] = buff[n + 1];
-        //                raw[1] = buff[n];
-        //                fetchvals[i] = BitConverter.ToUInt16(raw, 0);
-        //                n += 2;
-        //            }
-        //            //--------------------
-        //            if (Data.Risers.TryGetValue(key, out Riser riser))
-        //                riser.Update(fetchvals);
-        //        }
-        //        else
-        //        {
-        //            // ошибка контрольной суммы
-        //            if (Data.Risers.TryGetValue(key, out Riser riser))
-        //                riser.Update(new ushort[] { });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (Data.Risers.TryGetValue(key, out Riser riser))
-        //            riser.Update(new ushort[] { });
-        //    }
-        //}
 
         /// <summary>
         /// Обработчик для потока данных по TCP соединению
@@ -368,16 +315,22 @@ namespace NalivARM10
         {
             var pan = (RiserPanel)tscbRisersList.SelectedItem;
             if (pan == null) return;
+            // среди открытых форм ищем окно статуса стояка, если его нет, создаём новое
             var statusForm = Application.OpenForms.OfType<StatusForm>().FirstOrDefault() ?? new StatusForm(pan.RiserKey) { Owner = this };
             statusForm.RiserKey = pan.RiserKey;
             statusForm.Show();
             statusForm.BringToFront();
         }
 
+        /// <summary>
+        /// Вызов формы настройки свойств стояка
+        /// </summary>
+        /// <param name="tabNo">Номер вкладки окна настройки</param>
         private void ShowRiserConfig(int tabNo)
         {
             var pan = (RiserPanel)tscbRisersList.SelectedItem;
             if (pan == null) return;
+            // среди открытых форм ищем окно настройки стояка, если его нет, создаём новое
             var configForm = Application.OpenForms.OfType<RiserTuningForm>().FirstOrDefault() ?? new RiserTuningForm(pan.RiserKey, tabNo) { Owner = this };
             configForm.RiserKey = pan.RiserKey;
             configForm.TabNo = tabNo;
@@ -385,26 +338,51 @@ namespace NalivARM10
             configForm.BringToFront();
         }
 
+        /// <summary>
+        /// Меню: Конфигурация стояка/Связь...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsmiLink_Click(object sender, EventArgs e)
         {
             ShowRiserConfig(0);
         }
 
+        /// <summary>
+        /// Меню: Конфигурация стояка/PLC...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsmiPLC_Click(object sender, EventArgs e)
         {
             ShowRiserConfig(1);
         }
 
+        /// <summary>
+        /// Меню: Конфигурация стояка/ADC...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsmiADC_Click(object sender, EventArgs e)
         {
             ShowRiserConfig(2);
         }
 
+        /// <summary>
+        /// Меню: Конфигурация стояка/Сигнализатор аварийный...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsmiAlarmLevel_Click(object sender, EventArgs e)
         {
             ShowRiserConfig(3);
         }
 
+        /// <summary>
+        /// Меню: Конфигурация стояка/Сигнализатор уровня...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsmiProductLevel_Click(object sender, EventArgs e)
         {
             ShowRiserConfig(4);
