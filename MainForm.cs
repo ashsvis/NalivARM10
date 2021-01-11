@@ -403,8 +403,8 @@ namespace NalivARM10
             // среди открытых форм ищем окно настройки стояка, если его нет, создаём новое
             var taskForm = Application.OpenForms.OfType<FormTaskDataEditor>().FirstOrDefault() ?? new FormTaskDataEditor(pan.RiserKey) { Owner = this };
             taskForm.RiserKey = pan.RiserKey;
-            taskForm.Show();
             taskForm.BringToFront();
+            taskForm.ShowDialog();
         }
 
         private void tsbTask_Click(object sender, EventArgs e)
