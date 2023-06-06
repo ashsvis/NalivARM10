@@ -178,41 +178,61 @@ namespace NalivARM10
         {
             var worker = (BackgroundWorker)sender;
             if (!(e.Argument is EthernetTuning pars)) return;
-            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            if (!Data.Segments.TryGetValue(pars.SegmentId, out Channel channel)) return;
+            channel.Open();
+            if (channel.IsOpen)
             {
-                socket.SendTimeout = 5000;
-                socket.ReceiveTimeout = 5000;
-                try
+                using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                 {
-                    var remoteEp = new IPEndPoint(pars.Address, pars.Port);
-                    socket.Connect(remoteEp);
-                    Thread.Sleep(500);
-                    if (socket.Connected)
+                    socket.SendTimeout = 5000;
+                    socket.ReceiveTimeout = 5000;
+                    try
                     {
-                        worker.ReportProgress(0, $"Сокет {remoteEp} подключен");
-                        var lastsecond = DateTime.Now.Second;
-                        while (!worker.CancellationPending)
+                        var remoteEp = new IPEndPoint(pars.Address, pars.Port);
+                        socket.Connect(remoteEp);
+                        Thread.Sleep(500);
+                        if (socket.Connected)
                         {
-                            var dt = DateTime.Now;
-                            if (lastsecond == dt.Second) continue;
-                            lastsecond = dt.Second;
-                            // прошла секунда
-                            try
+                            worker.ReportProgress(0, $"Сокет {remoteEp} подключен");
+                            var queue = new Queue<RiserKey>(pars.RiserKeys);
+                            var lastsecond = DateTime.Now.Second;
+                            while (!worker.CancellationPending)
                             {
+                                var dt = DateTime.Now;
+                                if (lastsecond == dt.Second) continue;
+                                lastsecond = dt.Second;
+                                // прошла секунда
+                                try
+                                {
+                                    var list = new List<RiserKey>();
+                                    while (queue.Count > 0)
+                                    {
+                                        var key = queue.Dequeue();
+                                        list.Add(key);
+                                        var address = 0;
+                                        var datacount = 9; // max 61;
 
-                            }
-                            catch (Exception ex)
-                            {
-                                worker.ReportProgress(0, ex.Message);
+                                        var fetchvals = Channel.Fetch(channel, key, address, datacount);
+
+                                        if (Data.Risers.TryGetValue(key, out Riser riser))
+                                            riser.Update(fetchvals);
+                                    }
+                                    foreach (var key in list)
+                                        queue.Enqueue(key);
+                                }
+                                catch (Exception ex)
+                                {
+                                    worker.ReportProgress(0, ex.Message);
+                                }
                             }
                         }
+                        else
+                            worker.ReportProgress(0, $"Сокет {remoteEp} не подключен");
                     }
-                    else
-                        worker.ReportProgress(0, $"Сокет {remoteEp} не подключен");
-                }
-                catch (Exception ex)
-                {
-                    worker.ReportProgress(0, ex.Message);
+                    catch (Exception ex)
+                    {
+                        worker.ReportProgress(0, ex.Message);
+                    }
                 }
             }
         }

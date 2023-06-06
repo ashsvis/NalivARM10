@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>NalivARM10</RootNamespace>
     <AssemblyName>NalivARM10</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -207,7 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NalivARM.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="pix66_1.ico" />
     <None Include="Resources\waggon.png" />
